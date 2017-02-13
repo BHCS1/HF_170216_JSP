@@ -14,7 +14,7 @@ import model.Employee;
  */
 public class CreateEmployeeBean extends model.Employee {
   private ArrayList<Step> steps=new ArrayList<>();
-  private String currentstep="0";
+  private int currentstep=0;
   private final int STEPS_NUMBER;
   private final Employee THIS_EMP;
 
@@ -30,11 +30,6 @@ public class CreateEmployeeBean extends model.Employee {
     steps.add(new Step("Personal Details") {
       public boolean checking() {
         int i=0;
-
-//        String email = tfEmail.getText();
-//        String phoneNumber = (String)ftfPhone.getValue();
-//        String fName = tfFirstName.getText();
-//        String lName = tfLastName.getText();
         String fName=THIS_EMP.getFirstName();
         String lName=THIS_EMP.getFirstName();
         String email=THIS_EMP.getEmail();
@@ -116,15 +111,15 @@ public class CreateEmployeeBean extends model.Employee {
     return steps.get(i);
   }
 
-  public String getCurrentstep() {
+  public int getCurrentstep() {
     return currentstep;
   }
 
-  public void setCurrentstep(String currentstep) {
+  public void setCurrentstep(int currentstep) {
     this.currentstep = currentstep;
   }
   
   public void remove() {
-    this.currentstep="0";
+    this.currentstep=0;
   }
 }

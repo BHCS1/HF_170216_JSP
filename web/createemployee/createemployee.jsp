@@ -12,8 +12,6 @@
 <jsp:useBean id="create" class="jsp.CreateEmployeeBean" scope="session"/>
 <jsp:useBean id="emp" class="model.Employee" scope="session"/>
 
-<jsp:setProperty name="create" property="currentstep"/>
-
 <jsp:setProperty name="create" property="firstName" param="firstname"/>
 <jsp:setProperty name="create" property="lastName"/>
 <jsp:setProperty name="create" property="email"/>
@@ -27,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
     <link rel="stylesheet" type="text/css" href="/HF_170216_JSP/style.css" />
     <link rel="stylesheet" type="text/css" href="/HF_170216_JSP/menu/menu.css" />
+    <link rel="stylesheet" type="text/css" href="/HF_170216_JSP/createemployee/createemployee.css" />
   </head>
   <body>
     <jsp:include page="../menu/menu.jsp"></jsp:include>
@@ -34,12 +33,7 @@
     if(auth.isLogedin()) {
       if(auth.hasPermission("create_employee")) {
         
-        ArrayList<Step> steps=create.getSteps();
-        final int STEPS_NUMBER=create.getSTEPS_NUMBER();
-        
-        int index=Integer.parseInt(create.getCurrentstep());
-        
-        // CANCEL
+        /*// CANCEL
         if(index==-1) {
           create.remove();
           response.sendRedirect("../index.jsp");
@@ -57,8 +51,30 @@
             create.setCurrentstep(String.valueOf(index-1));
             response.sendRedirect("createemployee.jsp");
           }
+        }*/
+        
+        ArrayList<Step> steps=create.getSteps();
+        final int STEPS_NUMBER=create.getSTEPS_NUMBER();
+        
+        int index=create.getCurrentstep();
+        
+        if(request.getParameter("cancel")!=null) {
+          response.sendRedirect("../index.jsp");
+        }
+        
+        if(request.getParameter("back")!=null) {
+          index--;
+        }
+        
+        if(request.getParameter("next")!=null) {
+          index++;
+        }
+        
+        if(request.getParameter("finish")!=null) {
+          //create.save();
         }
 
+        create.setCurrentstep(index);
 
         %>
         <div>
@@ -82,9 +98,9 @@
                         + "<p>Set the employee's salary between the given limits</p>");
               }
               
-              out.print("<button name=\"currentstep\" value=\""+(-1)+"\" class=\"btn\" type=\"submit\" >Cancel</button>");
-              out.print("<button name=\"currentstep\" value=\""+(index-1)+"\" class=\"btn\" type=\"submit\" "+( (index > 0 && (STEPS_NUMBER > 1) )?"enabled":"disabled" )+" >Back</button>");
-              out.print("<button name=\"currentstep\" value=\""+(index+1)+"\" class=\"btn\" type=\"submit\" "+( (index < (STEPS_NUMBER - 1) && (STEPS_NUMBER > 1))?"enabled":"disabled" )+">Next</button>");
+              out.print("<button name=\"cancel\" value=\""+(-1)+"\" class=\"btn\" type=\"submit\" >Cancel</button>");
+              out.print("<button name=\"back\" value=\""+(index-1)+"\" class=\"btn\" type=\"submit\" "+( (index > 0 && (STEPS_NUMBER > 1) )?"enabled":"disabled" )+" >Back</button>");
+              out.print("<button name=\"next\" value=\""+(index+1)+"\" class=\"btn\" type=\"submit\" "+( (index < (STEPS_NUMBER - 1) && (STEPS_NUMBER > 1))?"enabled":"disabled" )+">Next</button>");
               out.print("<button name=\"currentstep\" value=\""+(index+1)+"\" class=\"btn\" type=\"submit\" "+( (index==STEPS_NUMBER-1)?"enabled":"disabled" )+" >Finish</button>");
             %>
           </form>
