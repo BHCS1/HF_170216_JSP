@@ -17,7 +17,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 public class Authentication implements AuthInterface {
-  InputSource xmlUsers = new InputSource("C:/BH01/Hf_170116/src/java/server/authentication/users.xml");//C:BH01/Hf_170216/src/java/server/authentication/users.xml");
+  InputSource xmlUsers = new InputSource("C:/BH01/HF_170216_JSP/src/java/server/authentication/users.xml");//C:BH01/Hf_170216/src/java/server/authentication/users.xml");
   XPath xPath = XPathFactory.newInstance().newXPath();
   MessageDigest md = null;
   

@@ -52,7 +52,7 @@
         }
         
         // ha az elozo oldal adatai nem jok, visszanavigaljuk
-        if(index-1>=0 && index-1<STEPS_NUMBER-1) {
+        if(index-1>=0 && index<STEPS_NUMBER-1) {
           if(!steps.get(index-1).checking()) {
             create.setCurrentstep(String.valueOf(index-1));
             response.sendRedirect("createemployee.jsp");
@@ -63,6 +63,7 @@
         %>
         <div>
           <div>
+            <%= create.getCurrentstep() %>
           <%
             for (int i = 0; i < STEPS_NUMBER; i++) {
                 out.print("<label>");
@@ -84,7 +85,7 @@
               out.print("<button name=\"currentstep\" value=\""+(-1)+"\" class=\"btn\" type=\"submit\" >Cancel</button>");
               out.print("<button name=\"currentstep\" value=\""+(index-1)+"\" class=\"btn\" type=\"submit\" "+( (index > 0 && (STEPS_NUMBER > 1) )?"enabled":"disabled" )+" >Back</button>");
               out.print("<button name=\"currentstep\" value=\""+(index+1)+"\" class=\"btn\" type=\"submit\" "+( (index < (STEPS_NUMBER - 1) && (STEPS_NUMBER > 1))?"enabled":"disabled" )+">Next</button>");
-              out.print("<button name=\"currentstep\" value=\""+STEPS_NUMBER+"\" class=\"btn\" type=\"submit\" "+( (index==STEPS_NUMBER-1)?"enabled":"disabled" )+" >Finish</button>");
+              out.print("<button name=\"currentstep\" value=\""+(index+1)+"\" class=\"btn\" type=\"submit\" "+( (index==STEPS_NUMBER-1)?"enabled":"disabled" )+" >Finish</button>");
             %>
           </form>
         </div>

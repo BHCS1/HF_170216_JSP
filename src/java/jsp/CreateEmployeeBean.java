@@ -94,6 +94,13 @@ public class CreateEmployeeBean extends model.Employee {
       }
     });
     
+    steps.add(new Step("Summary") {
+      @Override
+      public boolean checking() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      }
+    });
+    
     this.STEPS_NUMBER=steps.size();
   }
 
