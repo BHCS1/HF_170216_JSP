@@ -2,3 +2,5 @@
 /build/
 /nbproject/
 /test/
+/nbproject/build-impl.xml
+/nbproject/genfiles.properties
