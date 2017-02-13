@@ -54,38 +54,13 @@
         %>
     <script language="javascript">
       
-      function myFunction() {
 
-      }
-      
-      $(document).ready(function(){
-
-$("#form1").validate({
-   rules: {
-     field1: "required"
-   },
-   messages: {
-     field1: "Please specify your name"
-
-   }
-})
-
-$('#username').click(function() {
-          
-        var inpObj = "<%= steps.get(index).checking() %>";
-        if (inpObj === "VALID") {
-          //alert(inpObj);
-        }
-});
-
-});
     </script>
         <%
 
 
         %>
         <div>
-          <div><%= create.getCurrentstep() %></div>
           <div>
           <%
             for (int i = 0; i < STEPS_NUMBER; i++) {
@@ -96,14 +71,13 @@ $('#username').click(function() {
             %>
           </div>
         
-          <form action="createemployee.jsp" method="post" onsubmit="return validateForm()">
-            <input type="text" name="step" value="<%= request.getParameter("currentstep") %>">
+          <form action="createemployee.jsp" method="post">
             <%
               if(index==0) {
                 out.print("<div>"
-            + "New employee's first name and last name without any digit character</p>"
-            + "<p>Select the department and the job title</p>"
-            + "<p>Set the employee's salary between the given limits</p>");
+                        + "New employee's first name and last name without any digit character</p>"
+                        + "<p>Select the department and the job title</p>"
+                        + "<p>Set the employee's salary between the given limits</p>");
               }
               
               
