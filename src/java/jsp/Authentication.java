@@ -1,4 +1,4 @@
-package server.authentication;
+package jsp;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
