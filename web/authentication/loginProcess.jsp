@@ -1,7 +1,6 @@
 <%@page import="jsp.AuthBean" contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="auth" class="jsp.AuthBean" scope="session"/>
 <jsp:setProperty name="auth" property="username"/><!-- param="username"/>-->
-<jsp:setProperty name="auth" property="username"/><!-- param="username"/>-->
 
 <%
   
@@ -26,7 +25,6 @@
       //session.setAttribute("password", password);
       //session.setAttribute("authentication", "TRUE");
       auth.setLoggedin(status);
-      auth.setPermissions();
       
       // NAVIGATE TO INDEX
       response.sendRedirect("../index.jsp");
