@@ -2,8 +2,10 @@ package server.authentication;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.TreeSet;
 
-public interface AuthInterface extends Remote {
-  boolean login(String user, String pass) throws RemoteException;
-  boolean hasPermission(String user, String permission) throws RemoteException;
+public interface AuthInterface {
+  boolean login(String user, String pass, String filePath);
+  boolean hasPermission(String user, String permission);
+  TreeSet getPerissions(String user);
 }

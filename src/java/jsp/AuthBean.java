@@ -44,9 +44,9 @@ public class AuthBean implements Serializable {
     }
   }
   
-  public boolean login(String user, String pass) throws RemoteException {
+  public boolean login(String user, String pass, String filePath) {
     //trycatch kellene
-    boolean validAuth = new Authentication().login(user, pass);
+    boolean validAuth = new Authentication().login(user, pass, filePath);
     if (validAuth) {
       username = user;
       setPermissions();
@@ -71,27 +71,5 @@ public class AuthBean implements Serializable {
     permissions = null;
     loggedin = false;
   }
-  
-  /*public static void main(String[] args) throws RemoteException {
-    // for test
-    AuthBean bean = new AuthBean();
-    bean.login("HR1", "hr1");
-    System.out.println(bean.isLogedin());
-    System.out.println(bean.hasPermission("salary_change"));
-    System.out.println(bean.hasPermission("create_employee"));
-    System.out.println(bean.getPermissions());
-//    bean.reset();
-    bean.login("HR2", "hr2");
-    System.out.println(bean.isLogedin());
-    System.out.println(bean.hasPermission("salary_change"));
-    System.out.println(bean.hasPermission("create_employee"));
-    System.out.println(bean.getPermissions());
-//    bean.reset();
-    bean.login("HR3", "hr3");
-    System.out.println(bean.isLogedin());
-    System.out.println(bean.hasPermission("salary_change"));
-    System.out.println(bean.hasPermission("create_employee"));
-    System.out.println(bean.getPermissions());
-  }*/
   
 }
