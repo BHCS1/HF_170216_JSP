@@ -20,5 +20,5 @@ public abstract class Step {
     return title;
   }
   
-  public abstract String checking();
+  public abstract boolean checking();
 }

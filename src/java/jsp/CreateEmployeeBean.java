@@ -20,16 +20,15 @@ public class CreateEmployeeBean extends model.Employee {
 
   public CreateEmployeeBean() {
     THIS_EMP=this;
-    int STEPS_NUMBER=5;
     
     steps.add(new Step("Instructions") {
-      public String checking() {
-        return "VALID";
+      public boolean checking() {
+        return true;
       }
     });
     
     steps.add(new Step("Personal Details") {
-      public String checking() {
+      public boolean checking() {
         int i=0;
 
 //        String email = tfEmail.getText();
@@ -40,6 +39,8 @@ public class CreateEmployeeBean extends model.Employee {
         String lName=THIS_EMP.getFirstName();
         String email=THIS_EMP.getEmail();
         String phoneNumber=THIS_EMP.getPhoneNumber();
+        if(fName==null || lName==null || email==null || phoneNumber==null)
+          return false;
         
         StringBuilder sb=new StringBuilder();
         
@@ -89,7 +90,7 @@ public class CreateEmployeeBean extends model.Employee {
         else
           sb.append("Lastname contains digit or null, try again!");
 
-        return (i==5)?"VALID":sb.toString();
+        return i==5;//(i==5)?"VALID":sb.toString();
       }
     });
     
@@ -114,10 +115,6 @@ public class CreateEmployeeBean extends model.Employee {
 
   public void setCurrentstep(String currentstep) {
     this.currentstep = currentstep;
-  }
-  
-  public void addStep(Step step) {
-    //steps.add(step);
   }
   
   public void remove() {
