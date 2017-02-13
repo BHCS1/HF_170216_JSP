@@ -26,7 +26,6 @@
       //session.setAttribute("password", password);
       //session.setAttribute("authentication", "TRUE");
       auth.setLoggedin(status);
-      auth.setPermissions();
       
       // NAVIGATE TO INDEX
       response.sendRedirect("../index.jsp");

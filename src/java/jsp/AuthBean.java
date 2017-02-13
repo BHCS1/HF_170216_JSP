@@ -10,6 +10,17 @@ public class AuthBean implements Serializable {
   private String username = null;
   private TreeSet permissions;
   private boolean loggedin=false;
+  private Authentication authentication = null;
+
+  public Authentication getAuthentication() {
+    if (authentication == null)
+      authentication = new Authentication();
+    return authentication;
+  }
+
+  public void setAuthentication(Authentication authentication) {
+    this.authentication = authentication;
+  }
 
   public AuthBean() {
   }
@@ -38,15 +49,15 @@ public class AuthBean implements Serializable {
     this.permissions.remove(permission);
   }
   
-  public void setPermissions() {
+  private void setPermissions() {
     if (username != null) {
-      this.permissions = new Authentication().getPerissions(username);
+      this.permissions = getAuthentication().getPerissions(username);
     }
   }
   
   public boolean login(String user, String pass, String filePath) {
     //trycatch kellene
-    boolean validAuth = new Authentication().login(user, pass, filePath);
+    boolean validAuth = getAuthentication().login(user, pass, filePath);
     if (validAuth) {
       username = user;
       setPermissions();

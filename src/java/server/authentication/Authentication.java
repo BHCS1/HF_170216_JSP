@@ -1,6 +1,5 @@
 package server.authentication;
 
-import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -14,13 +13,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class Authentication implements AuthInterface {
+public class Authentication {
   InputSource xmlUsers = new InputSource("WEB-INF/users.xml");
   XPath xPath = XPathFactory.newInstance().newXPath();
   MessageDigest md = null;
   
-
-  @Override
   public boolean login(String user, String pass, String filePath) {
     xmlUsers = new InputSource(filePath);
     try {
@@ -44,8 +41,6 @@ public class Authentication implements AuthInterface {
     return validAuth;
   }
 
-
-  @Override
   public boolean hasPermission(String user, String permission) {
     boolean hasPermission = false;
     try {
