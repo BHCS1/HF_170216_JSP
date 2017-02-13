@@ -2,7 +2,6 @@ package jsp;
 
 import java.io.Serializable;
 import java.util.TreeSet;
-import server.authentication.Authentication;
 
 public class AuthBean implements Serializable {
   
