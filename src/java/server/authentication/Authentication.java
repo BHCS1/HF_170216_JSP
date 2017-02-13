@@ -13,13 +13,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class Authentication implements AuthInterface {
-  InputSource xmlUsers = new InputSource("");//C:BH01/Hf_170216/src/java/server/authentication/users.xml");
+public class Authentication {
+  InputSource xmlUsers = null;
   XPath xPath = XPathFactory.newInstance().newXPath();
   MessageDigest md = null;
   
-
-  @Override
   public boolean login(String user, String pass, String filePath) {
     xmlUsers = new InputSource(filePath);
     try {
@@ -43,8 +41,6 @@ public class Authentication implements AuthInterface {
     return validAuth;
   }
 
-
-  @Override
   public boolean hasPermission(String user, String permission) {
     boolean hasPermission = false;
     try {
@@ -70,6 +66,7 @@ public class Authentication implements AuthInterface {
         permissions.add(((Element)permissionLista.item(i)).getAttribute("name"));
       }
     } catch (XPathExpressionException ex) {
+      System.out.println();
       ex.printStackTrace();
     }
     return permissions;
