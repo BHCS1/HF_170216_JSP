@@ -11,13 +11,11 @@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
   </head>
   <body>
-<%=session.getServletContext().getRealPath("/").replace("\\", "/")%>
     <%
     String loginMessage=(String)request.getAttribute("loginmessage");
     //request.removeAttribute("loginmessage");
     
     if(!auth.isLogedin()) {%>
-
     <div class="wrapper">
       <form class="form-signin" action="loginProcess.jsp" method="post">       
         <h2 class="form-signin-heading">Please login</h2>

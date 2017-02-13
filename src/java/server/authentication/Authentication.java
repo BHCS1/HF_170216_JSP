@@ -19,8 +19,10 @@ public class Authentication implements AuthInterface {
   XPath xPath = XPathFactory.newInstance().newXPath();
   MessageDigest md = null;
   
+
   @Override
-  public boolean login(String user, String pass) {
+  public boolean login(String user, String pass, String filePath) {
+    xmlUsers = new InputSource(filePath);
     try {
       md = MessageDigest.getInstance("MD5");
     } catch(NoSuchAlgorithmException e) {
@@ -41,6 +43,7 @@ public class Authentication implements AuthInterface {
     
     return validAuth;
   }
+
 
   @Override
   public boolean hasPermission(String user, String permission) {
