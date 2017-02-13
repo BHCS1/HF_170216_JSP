@@ -1,7 +1,6 @@
 package jsp;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.TreeSet;
 import server.authentication.Authentication;
 

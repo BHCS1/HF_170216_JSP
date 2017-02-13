@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 public class Authentication {
-  InputSource xmlUsers = null;
+  InputSource xmlUsers = new InputSource("WEB-INF/users.xml");
   XPath xPath = XPathFactory.newInstance().newXPath();
   MessageDigest md = null;
   
