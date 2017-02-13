@@ -1,5 +1,8 @@
 package server.authentication;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -17,14 +20,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 public class Authentication implements AuthInterface {
-  InputSource xmlUsers = new InputSource("C:/BH01/Hf_170116/src/java/server/authentication/users.xml");//C:BH01/Hf_170216/src/java/server/authentication/users.xml");
+  InputSource xmlUsers = new InputSource("../../data/users.xml");
   XPath xPath = XPathFactory.newInstance().newXPath();
   MessageDigest md = null;
   
   @Override
-  public boolean login(String user, String pass) throws RemoteException {
-    System.out.println(user);
-    System.out.println(pass);
+  public boolean login(String user, String pass) {
     try {
       md = MessageDigest.getInstance("MD5");
     } catch(NoSuchAlgorithmException e) {
@@ -47,7 +48,7 @@ public class Authentication implements AuthInterface {
   }
 
   @Override
-  public boolean hasPermission(String user, String permission) throws RemoteException {
+  public boolean hasPermission(String user, String permission) {
     boolean hasPermission = false;
     try {
       Node userNode = (Node)xPath.evaluate("/root/users/user[@name='"+user+"']", xmlUsers, XPathConstants.NODE);
