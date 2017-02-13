@@ -18,7 +18,7 @@
     
   } else if(!auth.isLogedin()/*authAttr==null*/ && username!=null && password!=null) {
 
-    boolean status=auth.login(username, password);
+    boolean status=auth.login(username, password, application.getRealPath("/") + "WEB-INF/users.xml");
     
     if(status) {
       

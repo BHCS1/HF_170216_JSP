@@ -1,15 +1,9 @@
 package server.authentication;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.rmi.RemoteException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -20,12 +14,14 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 public class Authentication implements AuthInterface {
-  InputSource xmlUsers = new InputSource("../../data/users.xml");
+  InputSource xmlUsers = new InputSource("");//C:BH01/Hf_170216/src/java/server/authentication/users.xml");
   XPath xPath = XPathFactory.newInstance().newXPath();
   MessageDigest md = null;
   
+
   @Override
-  public boolean login(String user, String pass) {
+  public boolean login(String user, String pass, String filePath) {
+    xmlUsers = new InputSource(filePath);
     try {
       md = MessageDigest.getInstance("MD5");
     } catch(NoSuchAlgorithmException e) {
@@ -46,6 +42,7 @@ public class Authentication implements AuthInterface {
     
     return validAuth;
   }
+
 
   @Override
   public boolean hasPermission(String user, String permission) {
