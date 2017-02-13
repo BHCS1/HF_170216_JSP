@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class Model implements DBInterface, Serializable {
+public abstract class Model implements DBInterface {
 
   protected static Connection connection = null;
 
