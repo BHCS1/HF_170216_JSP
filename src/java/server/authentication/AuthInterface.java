@@ -1,7 +1,5 @@
 package server.authentication;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.util.TreeSet;
 
 public interface AuthInterface {

@@ -22,8 +22,6 @@ public class Authentication implements AuthInterface {
   @Override
   public boolean login(String user, String pass, String filePath) {
     xmlUsers = new InputSource(filePath);
-    System.out.println(user);
-    System.out.println(pass);
     try {
       md = MessageDigest.getInstance("MD5");
     } catch(NoSuchAlgorithmException e) {
