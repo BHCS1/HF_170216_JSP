@@ -22,7 +22,6 @@ public class CreateEmployeeBean extends model.Employee {
   private final int STEPS_NUMBER;
   private final Employee THIS_EMP;
   private StringBuffer sb=new StringBuffer();
-  private Job job=null;
   
   private ArrayList<String> errors=new ArrayList<>();
 
@@ -140,14 +139,6 @@ public class CreateEmployeeBean extends model.Employee {
   public ArrayList<String> getErrors() {
     return errors;
   }
-
-  public Job getJob() {
-    return job;
-  }
-
-  public void setJob(Job job) {
-    this.job = job;
-  }
   
 
   public int getSTEPS_NUMBER() {
@@ -168,9 +159,5 @@ public class CreateEmployeeBean extends model.Employee {
 
   public void setCurrentstep(int currentstep) {
     this.currentstep = currentstep;
-  }
-  
-  public void remove() {
-    this.currentstep=0;
   }
 }
