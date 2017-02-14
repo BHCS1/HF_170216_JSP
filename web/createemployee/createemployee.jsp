@@ -84,7 +84,7 @@
           <%
             for (int i = 0; i < STEPS_NUMBER; i++) {
                 out.print("<label class=\""+(index==i?"active":"")+"\">");
-                out.print(steps.get(i).getTitle());
+                out.print((i+1)+". "+steps.get(i).getTitle());
                 out.print("</label>");
             }
             %>
