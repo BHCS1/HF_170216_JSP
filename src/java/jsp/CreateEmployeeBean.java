@@ -7,13 +7,10 @@ package jsp;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.Employee;
+import model.Job;
 
 /**
  *
@@ -25,12 +22,20 @@ public class CreateEmployeeBean extends model.Employee {
   private final int STEPS_NUMBER;
   private final Employee THIS_EMP;
   private StringBuffer sb=new StringBuffer();
+  private Job job=null;
   
   private ArrayList<String> errors=new ArrayList<>();
 
   public CreateEmployeeBean() {
     THIS_EMP=this;
+    
     this.setDepartmentId(-1);
+    this.setFirstName("");
+    this.setLastName("");
+    this.setEmail("");
+    this.setPhoneNumber("");
+    this.setJobId("");
+    this.setSalary(0);
     
     steps.add(new Step("Instructions") {
       public boolean checking() {
@@ -83,15 +88,41 @@ public class CreateEmployeeBean extends model.Employee {
       }
     });
     
-    steps.add(new Step("Department") {
+    steps.add(new Step("Department & Job") {
       @Override
       public boolean checking() {
         errors.clear();
-        boolean returnVal=getDepartmentId()==-1;
-        if(returnVal) {
+        
+        boolean depValid=getDepartmentId()!=-1;
+        
+        if(!depValid)
           errors.add("Select a department.");
-        }
-        return !returnVal;
+        
+        boolean jobValid=getJob()!=null;
+        
+        if(!jobValid)
+          errors.add("Select a job.");
+        
+        return (depValid & jobValid);
+      }
+    });
+    
+    steps.add(new Step("Salary") {
+      @Override
+      public boolean checking() {
+        errors.clear();
+        
+        Job currentJob=getJob();
+        int minSalary=currentJob.getMinSalary();
+        int maxSalary=currentJob.getMaxSalary();
+        int currentSalary=getSalary();
+        
+        boolean valid=(currentSalary>=minSalary && currentSalary<=maxSalary);
+        
+        if (!valid)
+          errors.add("Invalid salary.");
+        
+        return valid;
       }
     });
     
@@ -109,6 +140,15 @@ public class CreateEmployeeBean extends model.Employee {
   public ArrayList<String> getErrors() {
     return errors;
   }
+
+  public Job getJob() {
+    return job;
+  }
+
+  public void setJob(Job job) {
+    this.job = job;
+  }
+  
 
   public int getSTEPS_NUMBER() {
     return STEPS_NUMBER;
