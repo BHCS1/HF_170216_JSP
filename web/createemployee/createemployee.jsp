@@ -11,7 +11,7 @@
 <%@page import="jsp.CreateEmployeeBean"%>
 <%@page import="server.authentication.Authentication" contentType="text/html" pageEncoding="UTF-8"%>
 
-<jsp:useBean id="auth" class="server.authentication.Authentication" scope="session"/>
+<jsp:useBean id="auth" class="jsp.AuthBean" scope="session"/>
 <jsp:useBean id="create" class="jsp.CreateEmployeeBean" scope="session"/>
 
 <jsp:setProperty name="create" property="firstName"/>
@@ -117,17 +117,12 @@
                 ArrayList<Job> jobs=Job.getAll();
                 String sessDepId=null;
                 
-                Job selectedJob=null;
-                
                 for (Job j:jobs) {
                   
                   Job currJob=j;
                   sessDepId=create.getJobId();
                   
                   boolean current = (currJob.getId().equals(j.getId()));
-                  if(current) {
-                    selectedJob=j;
-                  }
                   
                   out.print("<li><input type=\"radio\" class=\"content\" name=\"jobId\" value=\""+(currJob.getId())+"\""+( current?"checked":"" )+">"+j.getTitle()+"</li>");
                 }
@@ -137,30 +132,46 @@
               
             <div class="content" style="display:<%= (index==3)?"visibility":"none"%>">
                 <%
-                  create.setJob(selectedJob);
-                  int minSalary=selectedJob.getMinSalary();
-                  int maxSalary=selectedJob.getMaxSalary();
+                  //create.setJob(selectedJob);
+                  //int minSalary=selectedJob.getMinSalary();
+                  //int maxSalary=selectedJob.getMaxSalary();
+                  int minSalary=0, maxSalary=0;
+                  try {
+                  minSalary=create.getJob().getMinSalary();
+                  maxSalary=create.getJob().getMaxSalary();
                 %>
-              <h3 calss="list-head">$<%= minSalary %> - $<%= maxSalary %></h3>
+                <h3 calss="list-head">$<%= minSalary %> - $<%= maxSalary %></h3>
+                <%
+                  }
+                  catch(NullPointerException e) {
+                    ;
+                  }
+                %>
               <input type="text" name="salary" placeholder="Salary" value="<%= create.getSalary()%>">
             </div>
             
-            <div class="content" style="display:<%= (index==4)?"visibility":"none"%>">
-              <h3>Name: <%= create.getFirstName() %> <%= create.getFirstName() %></h3>
-              <h3>Email: <%= create.getEmail() %></h3>
-              <h3>Phone: <%= create.getPhoneNumber()%></h3>
-              <h3>Department: <%= create.getDepartmentId() %></h3>
-              <h3>Job: <%= create.getJobId() %></h3>
-              <h3>Salary: <%= create.getSalary() %></h3>
-            </div>
-      
-            
               <%
-                if(errors.size()>0) {
-                  %>
-                  <div class="err"><%= String.join("<br>", errors) %></div>
-                  <%
-                }
+              try {
+              %>
+              <div class="content" style="display:<%= (index==4)?"visibility":"none"%>">
+                <h3>Name: <%= create.getFirstName() %> <%= create.getFirstName() %></h3>
+                <h3>Email: <%= create.getEmail() %></h3>
+                <h3>Phone: <%= create.getPhoneNumber()%></h3>
+                <h3>Department: <%= create.getDepartment() %></h3>
+                <h3>Job: <%= create.getJob() %></h3>
+                <h3>Salary: <%= create.getSalary() %></h3>
+              </div>
+              <%
+              }
+              catch(NullPointerException e) {
+                ;
+              }
+
+              if(errors.size()>0) {
+                %>
+                <div class="err"><%= String.join("<br>", errors) %></div>
+                <%
+              }
               %>
             
             <script type="text/javascript" language="JavaScript">
