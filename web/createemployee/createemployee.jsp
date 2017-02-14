@@ -31,7 +31,7 @@
   <body>
     <jsp:include page="../menu/menu.jsp"></jsp:include>
     <%
-    if(auth.isLogedin()) {
+    if(auth.isloggedIn()) {
       if(auth.hasPermission("create_employee")) {
         
         ArrayList<Step> steps=create.getSteps();
