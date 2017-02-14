@@ -6,7 +6,6 @@
 package jsp;
 
 import java.util.ArrayList;
-import javafx.beans.binding.StringBinding;
 import model.Employee;
 
 /**
@@ -15,10 +14,9 @@ import model.Employee;
  */
 public class CreateEmployeeBean extends model.Employee {
   private ArrayList<Step> steps=new ArrayList<>();
-  private int currentstep=0;
+  private String currentstep="0";
   private final int STEPS_NUMBER;
   private final Employee THIS_EMP;
-  private StringBuilder sb=new StringBuilder();
 
   public CreateEmployeeBean() {
     THIS_EMP=this;
@@ -32,15 +30,19 @@ public class CreateEmployeeBean extends model.Employee {
     steps.add(new Step("Personal Details") {
       public boolean checking() {
         int i=0;
+
+//        String email = tfEmail.getText();
+//        String phoneNumber = (String)ftfPhone.getValue();
+//        String fName = tfFirstName.getText();
+//        String lName = tfLastName.getText();
         String fName=THIS_EMP.getFirstName();
         String lName=THIS_EMP.getFirstName();
         String email=THIS_EMP.getEmail();
         String phoneNumber=THIS_EMP.getPhoneNumber();
-        
         if(fName==null || lName==null || email==null || phoneNumber==null)
           return false;
         
-        sb=new StringBuilder();
+        StringBuilder sb=new StringBuilder();
         
         if (fName.matches(("[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+"))) {
           i++;
@@ -88,7 +90,7 @@ public class CreateEmployeeBean extends model.Employee {
         else
           sb.append("Lastname contains digit or null, try again!");
 
-        return false;//i==5;//(i==5)?"VALID":sb.toString();
+        return i==5;//(i==5)?"VALID":sb.toString();
       }
     });
     
@@ -102,11 +104,6 @@ public class CreateEmployeeBean extends model.Employee {
     this.STEPS_NUMBER=steps.size();
   }
 
-  public StringBuilder getSb() {
-    return sb;
-  }
-  
-
   public int getSTEPS_NUMBER() {
     return STEPS_NUMBER;
   }
@@ -119,15 +116,15 @@ public class CreateEmployeeBean extends model.Employee {
     return steps.get(i);
   }
 
-  public int getCurrentstep() {
+  public String getCurrentstep() {
     return currentstep;
   }
 
-  public void setCurrentstep(int currentstep) {
+  public void setCurrentstep(String currentstep) {
     this.currentstep = currentstep;
   }
   
   public void remove() {
-    this.currentstep=0;
+    this.currentstep="0";
   }
 }
