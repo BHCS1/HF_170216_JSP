@@ -1,5 +1,5 @@
-<%@page import="server.authentication.Authentication" contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="auth" class="server.authentication.Authentication" scope="session"/>
+<%@page import="jsp.AuthBean" contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="auth" class="jsp.AuthBean" scope="session"/>
 <jsp:setProperty name="auth" property="username"/>
 <%
   String username=auth.getUsername();

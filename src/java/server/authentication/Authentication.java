@@ -11,36 +11,14 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 public class Authentication {
-  InputSource xmlUsers = new InputSource(getClass().getResource("users.xml").toString());
+  InputSource xmlUsers = new InputSource(Authentication.class.getResource("users.xml").toString());
   XPath xPath = XPathFactory.newInstance().newXPath();
   MessageDigest md = null;
   
-  private boolean loggedIn = false;
-  private String username = null;
 
   public Authentication() {
   }
   
-  public boolean isloggedIn() {
-    return loggedIn;
-  }
-
-  public void setLoggedIn(boolean loggedIn) {
-    this.loggedIn = loggedIn;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-  
-  public void logout() {
-    setLoggedIn(false);
-    setUsername(null);
-  }
 
   public boolean login(String user, String pass) {
     try {
@@ -57,10 +35,6 @@ public class Authentication {
     boolean validAuth = false;
     try {
       validAuth = (boolean)xPath.evaluate("boolean(/root/users/user[@name='"+user+"'][@pass='"+passEncrypted+"'])", xmlUsers, XPathConstants.BOOLEAN);
-      if (validAuth) {
-        setLoggedIn(true);
-        setUsername(user);
-      }
     } catch (XPathExpressionException ex) {
       ex.printStackTrace();
     }
@@ -68,7 +42,7 @@ public class Authentication {
     return validAuth;
   }
 
-  public boolean hasPermission(String permission) {
+  public boolean hasPermission(String username, String permission) {
     boolean hasPermission = false;
     
     try {
