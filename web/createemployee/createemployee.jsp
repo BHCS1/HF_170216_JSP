@@ -7,8 +7,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="jsp.Step"%>
 <%@page import="jsp.CreateEmployeeBean"%>
-<%@page import="jsp.AuthBean, model.Employee" contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="auth" class="jsp.AuthBean" scope="session"/>
+<%@page import="server.authentication.Authentication, model.Employee" contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="auth" class="server.authentication.Authentication" scope="session"/>
 <jsp:useBean id="create" class="jsp.CreateEmployeeBean" scope="session"/>
 <jsp:useBean id="emp" class="model.Employee" scope="session"/>
 
