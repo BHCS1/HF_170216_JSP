@@ -6,15 +6,15 @@
 
 <%@page import="server.authentication.Authentication, model.Employee" contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="auth" class="server.authentication.Authentication" scope="session"/>
-<ul>
+<ul class="menu">
     <li>Hello <%=auth.getUsername()%></li>
-    <li><a href="index.jsp">Home</a></li>
+    <li><a href="../index.jsp">Home</a></li>
     <% if(auth.hasPermission("show_diagrams")) { %>
     <li><a href="#">Show diagrams</a></li>
     <% } %>
     <% if(auth.hasPermission("create_employee")) { %>
-    <li><a href="createemployee/createemployee.jsp">Create new employee</a></li>
+    <li><a href="./createemployee/createemployee.jsp">Create new employee</a></li>
     <% } %>
 
-    <li style="float:right;"><a class="active" href="authentication/logout.jsp">Logout</a></li>
+    <li style="float:right;"><a class="active" href="./authentication/logout.jsp">Logout</a></li>
 </ul>

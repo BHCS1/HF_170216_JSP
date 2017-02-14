@@ -70,7 +70,8 @@ public class Authentication {
 
   public boolean hasPermission(String permission) {
     boolean hasPermission = false;
-    
+    if(username==null)
+      return false;
     try {
       Node userNode = (Node)xPath.evaluate("/root/users/user[@name='"+username+"']", xmlUsers, XPathConstants.NODE);
       String role = userNode.getAttributes().getNamedItem("role").getNodeValue();
