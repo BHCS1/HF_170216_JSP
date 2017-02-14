@@ -1,5 +1,5 @@
-<%@page import="jsp.AuthBean" contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="auth" class="jsp.AuthBean" scope="session"/>
+<%@page import="server.authentication.Authentication" contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="auth" class="server.authentication.Authentication" scope="session"/>
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
   </head>
   <body>
-    <% if(!auth.isLogedin()) {
+    <% if(!auth.isloggedIn()) {
       response.sendRedirect("/HF_170216_JSP/authentication/login.jsp");
     } else {
       %>

@@ -1,6 +1,8 @@
 package server.authentication;
 
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -14,15 +16,39 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class Authentication implements AuthInterface {
-  InputSource xmlUsers = new InputSource("WEB-INF/users.xml");
+public class Authentication implements Serializable{
+  InputSource xmlUsers = new InputSource(getClass().getResource("users.xml").toString());
   XPath xPath = XPathFactory.newInstance().newXPath();
   MessageDigest md = null;
   
+  private boolean loggedIn = false;
+  private String username = null;
 
-  @Override
-  public boolean login(String user, String pass, String filePath) {
-    xmlUsers = new InputSource(filePath);
+  public Authentication() {
+  }
+  
+  public boolean isloggedIn() {
+    return loggedIn;
+  }
+
+  public void setLoggedIn(boolean loggedIn) {
+    this.loggedIn = loggedIn;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+  
+  public void logout() {
+    setLoggedIn(false);
+    setUsername(null);
+  }
+
+  public boolean login(String user, String pass) {
     try {
       md = MessageDigest.getInstance("MD5");
     } catch(NoSuchAlgorithmException e) {
@@ -37,6 +63,10 @@ public class Authentication implements AuthInterface {
     boolean validAuth = false;
     try {
       validAuth = (boolean)xPath.evaluate("boolean(/root/users/user[@name='"+user+"'][@pass='"+passEncrypted+"'])", xmlUsers, XPathConstants.BOOLEAN);
+      if (validAuth) {
+        setLoggedIn(true);
+        setUsername(user);
+      }
     } catch (XPathExpressionException ex) {
       ex.printStackTrace();
     }
@@ -44,36 +74,19 @@ public class Authentication implements AuthInterface {
     return validAuth;
   }
 
-
-  @Override
-  public boolean hasPermission(String user, String permission) {
+  public boolean hasPermission(String permission) throws XPathExpressionException, Exception {
     boolean hasPermission = false;
-    try {
-      Node userNode = (Node)xPath.evaluate("/root/users/user[@name='"+user+"']", xmlUsers, XPathConstants.NODE);
+    
+//    try {
+      Node userNode = (Node)xPath.evaluate("/root/users/user[@name='"+username+"']", xmlUsers, XPathConstants.NODE);
       String role = userNode.getAttributes().getNamedItem("role").getNodeValue();
       hasPermission = (boolean)xPath.evaluate("boolean(/root/roles/role[@name='"+role+"']/permission[@name='"+permission+"'])", xmlUsers, XPathConstants.BOOLEAN);
-    } catch (XPathExpressionException ex) {
-      ex.printStackTrace();
-    }
+  //  } catch (XPathExpressionException ex) {
+    //  ex.printStackTrace();
+    //}
     
     return hasPermission;
     
-  }
-  
-  public TreeSet getPerissions(String user) {
-    TreeSet<String> permissions = new TreeSet();
-    try {
-      Node userNode = (Node)xPath.evaluate("/root/users/user[@name='"+user+"']", xmlUsers, XPathConstants.NODE);
-      String role = userNode.getAttributes().getNamedItem("role").getNodeValue();
-      Element userElement = (Element)xPath.evaluate("/root/roles/role[@name='"+role+"']", xmlUsers, XPathConstants.NODE);
-      NodeList permissionLista = userElement.getElementsByTagName("permission");
-      for (int i = 0; i < permissionLista.getLength(); i++) {
-        permissions.add(((Element)permissionLista.item(i)).getAttribute("name"));
-      }
-    } catch (XPathExpressionException ex) {
-      ex.printStackTrace();
-    }
-    return permissions;
   }
   
 }

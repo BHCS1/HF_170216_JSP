@@ -1,5 +1,5 @@
-<%@page import="jsp.AuthBean" contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="auth" class="jsp.AuthBean" scope="session"/>
+<%@page import="server.authentication.Authentication" contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="auth" class="server.authentication.Authentication" scope="session"/>
 
 <!DOCTYPE html>
 <html>
@@ -15,7 +15,7 @@
     String loginMessage=(String)request.getAttribute("loginmessage");
     //request.removeAttribute("loginmessage");
     
-    if(!auth.isLogedin()) {%>
+    if(!auth.isloggedIn()) {%>
     <div class="wrapper">
       <form class="form-signin" action="loginProcess.jsp" method="post">       
         <h2 class="form-signin-heading">Please login</h2>
