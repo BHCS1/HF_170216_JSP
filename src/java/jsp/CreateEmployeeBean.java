@@ -5,8 +5,12 @@
  */
 package jsp;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import model.Employee;
+import model.Job;
 
 /**
  *
@@ -14,95 +18,128 @@ import model.Employee;
  */
 public class CreateEmployeeBean extends model.Employee {
   private ArrayList<Step> steps=new ArrayList<>();
-  private String currentstep="0";
+  private int currentstep=0;
   private final int STEPS_NUMBER;
   private final Employee THIS_EMP;
+  private StringBuffer sb=new StringBuffer();
+  
+  private ArrayList<String> errors=new ArrayList<>();
 
   public CreateEmployeeBean() {
     THIS_EMP=this;
     
+    this.setDepartmentId(-1);
+    this.setFirstName("");
+    this.setLastName("");
+    this.setEmail("");
+    this.setPhoneNumber("");
+    this.setJobId("");
+    this.setSalary(0);
+    
     steps.add(new Step("Instructions") {
       public boolean checking() {
+        errors.clear();
         return true;
       }
     });
     
     steps.add(new Step("Personal Details") {
       public boolean checking() {
-        int i=0;
-
-//        String email = tfEmail.getText();
-//        String phoneNumber = (String)ftfPhone.getValue();
-//        String fName = tfFirstName.getText();
-//        String lName = tfLastName.getText();
-        String fName=THIS_EMP.getFirstName();
-        String lName=THIS_EMP.getFirstName();
-        String email=THIS_EMP.getEmail();
-        String phoneNumber=THIS_EMP.getPhoneNumber();
-        if(fName==null || lName==null || email==null || phoneNumber==null)
-          return false;
+        errors.clear();
         
-        StringBuilder sb=new StringBuilder();
+        if (getFirstName()==null) {
+          errors.add("Missing firstname.");
+        }
+        else if(!getFirstName().matches(("[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+"))) {
+          errors.add("Invalid firstname.");
+        }
         
-        if (fName.matches(("[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+"))) {
-          i++;
-          fName=fName.substring(0, 1).toUpperCase() + fName.substring(1);
+        if (getLastName()==null) {
+          errors.add("Missing lastname.");
+        } else if(!getLastName().matches(("[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+"))) {
+          errors.add("Invalid lastname.");
         }
-        else
-          sb.append("Firstname contains digit or null, try again!");
+
+        if (getEmail()==null) {
+          errors.add("Missing email address.");
+        }
+        else {
+          final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+          Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(getEmail());
+          if(!matcher.find()) {
+            errors.add("Invalid email address!");
+          }
+          else {
+            try {
+              if(Employee.emailExists(getEmail()))
+                errors.add("Existing email, please type another email address!");
+            }
+            catch (SQLException ex) {
+              errors.add("Querying data failed!");
+            }
+            catch(ClassNotFoundException ex) {
+              errors.add("Most probably misssing ojdbc driver!");
+            }
+          }
+        }
         
-        if (lName.matches(("[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+"))) {
-          i++;
-          lName=lName.substring(0, 1).toUpperCase() + lName.substring(1);
-        }
-        else
-          sb.append("Lastname contains digit or null, try again!");
-
-//        try {
-//          if (emailValidate(email)){
-//            i++;
-//            if (!Controller.getServer().emailExists(email) ) {
-//              i++;
-//              employee.setEmail(email);
-//            }
-//            else {
-//              JOptionPane.showMessageDialog(this, "Existing email, please type another email address!", "Information Message", JOptionPane.INFORMATION_MESSAGE);
-//            }
-//          }
-//          else
-//            JOptionPane.showMessageDialog(this, "Not a valid email, please try again!", "Information Message", JOptionPane.INFORMATION_MESSAGE);
-//
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Querying data failed!", "Error", JOptionPane.ERROR_MESSAGE);
-//            System.out.println(ex.getMessage());
-//        } catch (ClassNotFoundException ex) {
-//            JOptionPane.showMessageDialog(null, "Most probably misssing ojdbc driver!", "Error", JOptionPane.ERROR_MESSAGE);
-//            System.out.println(ex.getMessage());
-//        } catch (RemoteException ex) {
-//            JOptionPane.showMessageDialog(null, "Remote connection failed!", "Error", JOptionPane.ERROR_MESSAGE);
-//            System.out.println(ex.getMessage());
-//        }
-
-        if (phoneNumber!= null){
-          i++;
-          THIS_EMP.setPhoneNumber(phoneNumber);
-        }
-        else
-          sb.append("Lastname contains digit or null, try again!");
-
-        return i==5;//(i==5)?"VALID":sb.toString();
+        return errors.size()<=0;
+      }
+    });
+    
+    steps.add(new Step("Department & Job") {
+      @Override
+      public boolean checking() {
+        errors.clear();
+        
+        boolean depValid=getDepartmentId()!=-1;
+        
+        if(!depValid)
+          errors.add("Select a department.");
+        
+        boolean jobValid=getJob()!=null;
+        
+        if(!jobValid)
+          errors.add("Select a job.");
+        
+        return (depValid & jobValid);
+      }
+    });
+    
+    steps.add(new Step("Salary") {
+      @Override
+      public boolean checking() {
+        errors.clear();
+        
+        Job currentJob=getJob();
+        int minSalary=currentJob.getMinSalary();
+        int maxSalary=currentJob.getMaxSalary();
+        int currentSalary=getSalary();
+        
+        boolean valid=(currentSalary>=minSalary && currentSalary<=maxSalary);
+        
+        if (!valid)
+          errors.add("Invalid salary.");
+        
+        return valid;
       }
     });
     
     steps.add(new Step("Summary") {
       @Override
       public boolean checking() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        errors.clear();
+        return true;
       }
     });
     
     this.STEPS_NUMBER=steps.size();
   }
+
+  public ArrayList<String> getErrors() {
+    return errors;
+  }
+  
 
   public int getSTEPS_NUMBER() {
     return STEPS_NUMBER;
@@ -116,15 +153,11 @@ public class CreateEmployeeBean extends model.Employee {
     return steps.get(i);
   }
 
-  public String getCurrentstep() {
+  public int getCurrentstep() {
     return currentstep;
   }
 
-  public void setCurrentstep(String currentstep) {
+  public void setCurrentstep(int currentstep) {
     this.currentstep = currentstep;
-  }
-  
-  public void remove() {
-    this.currentstep="0";
   }
 }

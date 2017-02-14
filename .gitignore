@@ -2,3 +2,7 @@
 /build/
 /nbproject/
 /test/
+/lib/CopyLibs/
+/lib/javaee-endorsed-api-7.0/
+/lib/nblibraries.properties
+nbbuild.xml
