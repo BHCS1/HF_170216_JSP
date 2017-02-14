@@ -187,7 +187,7 @@
               out.print("<div class=\"buttons\">");
               out.print("<button onclick=\"cancel()\" class=\"btn\" type=\"button\" >Cancel</button>");
               out.print("<button name=\"back\" class=\"btn\" type=\"submit\" "+( (index > 0 && (STEPS_NUMBER > 1) )?"enabled":"disabled" )+" >Back</button>");
-              out.print("<button name=\"next\" class=\"btn\" type=\"submit\" "+( (index < (STEPS_NUMBER - 1) && (STEPS_NUMBER > 1))?"enabled":"disabled" )+">Next</button>");
+              out.print("<button id=\"next\" name=\"next\" class=\"btn\" type=\"submit\" "+( (index < (STEPS_NUMBER - 1) && (STEPS_NUMBER > 1))?"enabled":"disabled" )+">Next</button>");
               out.print("<button name=\"finish\" class=\"btn\" type=\"submit\" "+( (index==STEPS_NUMBER-1)?"enabled":"disabled" )+" >Finish</button>");
               out.print("</div>");
                 %>
