@@ -1,23 +1,22 @@
-<%@page import="server.authentication.Authentication" contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="auth" class="server.authentication.Authentication" scope="session"/>
+<%@page import="jsp.AuthBean" contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="auth" class="jsp.AuthBean" scope="session"/>
 
 <!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="/HF_170216_JSP/style.css" />
-    <link rel="stylesheet" type="text/css" href="./login.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/authentication/login.css" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
   </head>
   <body>
     <%
     String loginMessage=(String)request.getAttribute("loginmessage");
-    //request.removeAttribute("loginmessage");
     
     if(!auth.isloggedIn()) {%>
     <div class="wrapper">
-      <form class="form-signin" action="loginProcess.jsp" method="post">       
+      <form class="form-signin" action="${pageContext.request.contextPath}/authentication/loginProcess.jsp" method="post">       
         <h2 class="form-signin-heading">Please login</h2>
         <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="" value="${param.username}"/>
         <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
@@ -31,14 +30,8 @@
     </div>
     
     <% } else { 
-    response.sendRedirect("../index.jsp");
+        response.sendRedirect(request.getContextPath()+"/index.jsp");
+       }
     %>
-    
-    <!--<form action="loginProcess.jsp" method="post">
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Logout</button>
-    </form>-->
-    
-    
-    <% } %>
   </body>
 </html>
