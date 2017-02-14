@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static model.Model.connect;
 import static model.Model.connection;
 
@@ -25,6 +27,36 @@ public class Department extends Model {
     this.name = name;
     this.managerId = managerId;
   }
+
+  public static Department get(int id) {
+    Department department = null;
+    try {
+      connect();
+
+      String query = "SELECT department_name AS depName, " +
+              "department_id AS id, " +
+              "manager_id AS managerId " +
+              "FROM departments " +
+              "WHERE department_id="+id;
+
+      ResultSet result = connection.createStatement().executeQuery(query);
+
+      result.next();
+      department = new Department(
+            result.getInt("id"),
+            result.getString("depName"),
+            result.getInt("managerId")
+          );
+
+      disconnect();
+    } catch (ClassNotFoundException ex) {
+      ;
+    } catch (SQLException ex) {
+      ;
+    }
+    return department;
+  }
+
 
   public static ArrayList<Department> getAll() throws ClassNotFoundException, SQLException {
     connect();
