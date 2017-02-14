@@ -62,31 +62,36 @@
           response.sendRedirect("../index.jsp");
         }
         
+        if(request.getParameter("finish")!=null) {
+          //create.save();
+        }
+        
         if(request.getParameter("back")!=null) {
           index--;
         }
         
         if(request.getParameter("next")!=null) {
-          index++;
+          if(steps.get(index).checking()) {
+            index++;
+          }
         }
         
-        if(request.getParameter("finish")!=null) {
-          //create.save();
-        }
-
         create.setCurrentstep(index);
 
         %>
         <div>
-          <div>
-            <%= create.getCurrentstep() %>
+          <div class="tabs">
           <%
             for (int i = 0; i < STEPS_NUMBER; i++) {
-                out.print("<label>");
+                out.print("<label class=\""+(index==i?"active":"")+"\">");
                 out.print(steps.get(i).getTitle());
                 out.print("</label>");
             }
             %>
+          </div>
+          
+          <div>
+            <%= create.getSb().toString() %>
           </div>
         
           <form action="createemployee.jsp" method="post">

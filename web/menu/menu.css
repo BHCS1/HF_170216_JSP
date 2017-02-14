@@ -14,7 +14,7 @@ li a {
     display: table;
     color: black;
     text-align: center;
-    padding: 14px 16px;
+    padding: 20px;
     text-decoration: none;
     border: 0;
 }
@@ -23,7 +23,7 @@ li a:hover:not(.active) {
     background-color: #eee;
 }
 
-.active {
+li a.active {
     color: white;
     background-color: #AFD5FF;
 }

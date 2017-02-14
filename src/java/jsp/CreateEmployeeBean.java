@@ -6,6 +6,7 @@
 package jsp;
 
 import java.util.ArrayList;
+import javafx.beans.binding.StringBinding;
 import model.Employee;
 
 /**
@@ -17,6 +18,7 @@ public class CreateEmployeeBean extends model.Employee {
   private int currentstep=0;
   private final int STEPS_NUMBER;
   private final Employee THIS_EMP;
+  private StringBuilder sb=new StringBuilder();
 
   public CreateEmployeeBean() {
     THIS_EMP=this;
@@ -34,10 +36,11 @@ public class CreateEmployeeBean extends model.Employee {
         String lName=THIS_EMP.getFirstName();
         String email=THIS_EMP.getEmail();
         String phoneNumber=THIS_EMP.getPhoneNumber();
+        
         if(fName==null || lName==null || email==null || phoneNumber==null)
           return false;
         
-        StringBuilder sb=new StringBuilder();
+        sb=new StringBuilder();
         
         if (fName.matches(("[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+"))) {
           i++;
@@ -85,7 +88,7 @@ public class CreateEmployeeBean extends model.Employee {
         else
           sb.append("Lastname contains digit or null, try again!");
 
-        return i==5;//(i==5)?"VALID":sb.toString();
+        return false;//i==5;//(i==5)?"VALID":sb.toString();
       }
     });
     
@@ -98,6 +101,11 @@ public class CreateEmployeeBean extends model.Employee {
     
     this.STEPS_NUMBER=steps.size();
   }
+
+  public StringBuilder getSb() {
+    return sb;
+  }
+  
 
   public int getSTEPS_NUMBER() {
     return STEPS_NUMBER;
