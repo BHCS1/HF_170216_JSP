@@ -66,13 +66,11 @@
             <%= create.getCurrentstep() %>
           <%
             for (int i = 0; i < STEPS_NUMBER; i++) {
-<<<<<<< HEAD
                 out.print("<label class=\""+(index==i?"active":"")+"\">");
                 out.print((i+1)+". "+steps.get(i).getTitle());
-=======
+                
                 out.print("<label>");
                 out.print(steps.get(i).getTitle());
->>>>>>> 33cb8418dcee13ce7d8bc0b1b4175c8959855fec
                 out.print("</label>");
             }
             %>
