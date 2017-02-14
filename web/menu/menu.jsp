@@ -16,5 +16,5 @@
     <li><a href="createemployee/createemployee.jsp">Create new employee</a></li>
     <% } %>
 
-    <li style="float:right;"><a class="active" href="authentication/logout.jsp">Logout</a></li>
+    <li style="float:right;"><a class="active" href="/authentication/logout.jsp">Logout</a></li>
 </ul>
