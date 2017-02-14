@@ -3,6 +3,8 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static model.Model.connect;
 import static model.Model.connection;
 
@@ -20,7 +22,38 @@ public class Job extends Model {
     this.maxSalary = maxSalary;
   }
   
-    public static ArrayList<Job> getAll() throws ClassNotFoundException, SQLException {
+  public static Job get(String id) {
+    Job job = null;
+    try {
+      connect();
+
+      String query = "SELECT job_title AS jobTitle, "
+            + "job_id AS id,"
+            + "min_salary AS minSalary,"
+            + "max_salary AS maxSalary "
+            + "FROM jobs "
+            + "WHERE job_id='"+id+"'";
+
+      ResultSet result = connection.createStatement().executeQuery(query);
+
+      result.next();
+      job = new Job(
+            result.getString("id"),
+            result.getString("jobTitle"),
+            result.getInt("minSalary"),
+            result.getInt("maxSalary")
+          );
+    } catch (SQLException ex) {
+      ;
+    } catch (ClassNotFoundException ex) {
+      Logger.getLogger(Job.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    disconnect();
+    return job;
+  }
+  
+  public static ArrayList<Job> getAll() throws ClassNotFoundException, SQLException {
     connect();
     ArrayList<Job> list = new ArrayList<>();
 
