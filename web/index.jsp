@@ -1,7 +1,7 @@
 <%@page import="model.Employee"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="server.authentication.Authentication" contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="auth" class="server.authentication.Authentication" scope="session"/>
+<%@page import="jsp.AuthBean" contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="auth" class="jsp.AuthBean" scope="session"/>
 
 <!DOCTYPE html>
 <html>

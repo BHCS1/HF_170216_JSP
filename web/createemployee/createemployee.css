@@ -1,0 +1,98 @@
+div.panel {
+  margin: 20px;
+  background-color: white;
+}
+
+div.tabs {
+  background-color: #e1e1e1;
+  margin: 0;
+  padding: 20px 0;
+}
+
+.tabs label {
+  color: #777;
+  padding: 20px 20px;
+}
+
+.tabs label.active {
+  color: black;
+  font-weight: bold;
+}
+
+form {
+  padding: 0px;
+  margin: 0px;
+}
+
+div.content {
+  padding: 20px;
+}
+
+.content input[type=text] {
+  display: table;
+  font-size: 16px;
+  border: 0;
+  border-bottom: #eee 1px solid;
+  margin-bottom: 10px;
+  padding: 20px;
+  cursor: url;
+}
+
+.content input[type=text]:focus {
+  outline: none;
+  border-bottom: #AFD5FF 1px solid;
+}
+
+.content input[type=radio] + text {
+  display: block;
+  position: relative;
+  padding: 50px;
+  margin: 10px auto;
+  height: 30px;
+  float: left;
+}
+
+.content .list-head hr {
+  width: auto;
+  float: left;
+}
+
+.content ul {
+  display: table;
+  padding: 0px;
+  list-style-type: none;
+}
+
+.content ul li {
+  width: 25%;
+  float: left;
+  padding-bottom: 10px;
+}
+
+div.err {
+  text-align: left;
+  padding: 15px;
+  color: #FF5050;
+  font-weight: normal;
+}
+
+div.buttons {
+  background-color: #AFD5FF;
+  padding: 0;
+}
+
+.buttons button {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 20px;
+  background-color: transparent;
+  color: #ffffff;
+  border: 0px;
+}
+
+.buttons button:hover {
+}
+
+.buttons button:disabled {
+  color: #e1e1e1;
+}

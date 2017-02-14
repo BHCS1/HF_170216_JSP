@@ -4,6 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static model.Model.connect;
 import static model.Model.connection;
 
@@ -23,6 +27,36 @@ public class Department extends Model {
     this.name = name;
     this.managerId = managerId;
   }
+
+  public static Department get(int id) {
+    Department department = null;
+    try {
+      connect();
+
+      String query = "SELECT department_name AS depName, " +
+              "department_id AS id, " +
+              "manager_id AS managerId " +
+              "FROM departments " +
+              "WHERE department_id="+id;
+
+      ResultSet result = connection.createStatement().executeQuery(query);
+
+      result.next();
+      department = new Department(
+            result.getInt("id"),
+            result.getString("depName"),
+            result.getInt("managerId")
+          );
+
+      disconnect();
+    } catch (ClassNotFoundException ex) {
+      ;
+    } catch (SQLException ex) {
+      ;
+    }
+    return department;
+  }
+
 
   public static ArrayList<Department> getAll() throws ClassNotFoundException, SQLException {
     connect();
@@ -109,5 +143,26 @@ public class Department extends Model {
     disconnect();
 
     return sumSalary;
+  }
+  
+  public static HashMap<String,Integer> getDepartmentSalaries() throws SQLException, ClassNotFoundException {
+    HashMap<String,Integer> departments = new HashMap<>();
+    
+    connect();
+    
+    String query = "SELECT d.department_name AS depName, SUM(e.salary) AS sumSalary FROM employees e "
+            + "LEFT JOIN departments d ON e.department_id=d.department_id "
+            + "GROUP BY e.department_id, d.department_name "
+            + "ORDER BY d.department_name ";
+    
+    ResultSet result = connection.createStatement().executeQuery(query);
+    
+    while(result.next()) {
+      departments.put(result.getString("depName"), result.getInt("sumSalary"));
+    }
+    
+    disconnect();
+    
+    return departments; 
   }
 }

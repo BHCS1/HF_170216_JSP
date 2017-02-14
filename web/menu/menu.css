@@ -1,4 +1,4 @@
-ul {
+ul.menu {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -6,11 +6,11 @@ ul {
     background-color: white;
 }
 
-li {
+.menu li {
     float: left;
 }
 
-li a {
+.menu li a {
     display: table;
     color: black;
     text-align: center;
@@ -19,11 +19,11 @@ li a {
     border: 0;
 }
 
-li a:hover:not(.active) {
+.menu li a:hover:not(.active) {
     background-color: #eee;
 }
 
-.active {
+.menu a.active {
     color: white;
     background-color: #AFD5FF;
 }

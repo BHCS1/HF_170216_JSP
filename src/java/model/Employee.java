@@ -20,6 +20,7 @@ public class Employee extends Model {
   private int departmentId;
   private String departmentName;
   private Department department;
+  private Job job;
 
   public static ArrayList<Employee> getAll() throws ClassNotFoundException, SQLException {
     connect();
@@ -221,6 +222,15 @@ public class Employee extends Model {
 
   public void setJobId(String jobId) {
     this.jobId = jobId;
+    this.job = null;
+  }
+  
+  public Job getJob() {
+    if (job==null) {
+      job = Job.get(jobId);
+    }
+    
+    return job;
   }
 
   public int getManagerId() {
