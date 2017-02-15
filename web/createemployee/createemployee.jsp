@@ -147,7 +147,7 @@
                     ;
                   }
                 %>
-              <input type="text" name="salary" placeholder="Salary" value="<%= create.getSalary()%>">
+              <input type="text" name="salary" placeholder="Salary" pattern="[0-9]" title="Only digits." value="<%= create.getSalary()==0?"":create.getSalary() %>">
             </div>
             
               <%
