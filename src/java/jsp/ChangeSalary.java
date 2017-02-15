@@ -12,9 +12,11 @@ public class ChangeSalary extends model.Employee  {
   private int newSalary;
   int[] salaryMinMax= new int[2];
   private int id;
+  private boolean allDone;
 
   public ChangeSalary() throws ClassNotFoundException, SQLException{
     this.employee = Employee.getAll();
+    allDone=false;
   }
   
 public String getName(String idValue) {
@@ -71,10 +73,19 @@ public String getName(String idValue) {
     if (newSalary==employee.get(index).getSalary())
       return "Same salary, please type a new salary!";
     
-    if (!typedSalaryValueCheck())
+    else if (!typedSalaryValueCheck())
       return "Wrong salary, please type a new salary!";
-    
-    return "ok";
+    else {
+      employee.get(index).setSalary(newSalary);  // Adatbázisba nem megy bele!!!
+      allDone=true;                               // kell még nyomni egy gombot, hogy visszalépjen!
+    }
+    return "Salary updated";
   }
+
+  public boolean isAllDone() {
+    return allDone;
+  }
+  
+  
     
 }
