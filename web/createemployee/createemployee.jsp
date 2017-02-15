@@ -1,17 +1,11 @@
-<%-- 
-    Document   : createemployee
-    Created on : 2017.02.13., 13:58:28
-    Author     : ferenc
---%>
-
 <%@page import="model.Job"%>
 <%@page import="model.Department"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="jsp.Step"%>
 <%@page import="jsp.CreateEmployeeBean"%>
-<%@page import="server.authentication.Authentication" contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="jsp.AuthBean" contentType="text/html" pageEncoding="UTF-8"%>
 
-<jsp:useBean id="auth" class="server.authentication.Authentication" scope="session"/>
+<jsp:useBean id="auth" class="jsp.AuthBean" scope="session"/>
 <jsp:useBean id="create" class="jsp.CreateEmployeeBean" scope="session"/>
 
 <jsp:setProperty name="create" property="firstName"/>
@@ -22,19 +16,11 @@
 <jsp:setProperty name="create" property="jobId"/>
 <jsp:setProperty name="create" property="salary"/>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Create new employee</title>
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
-    <link rel="stylesheet" type="text/css" href="/HF_170216_JSP/style.css" />
-    <link rel="stylesheet" type="text/css" href="/HF_170216_JSP/menu/menu.css" />
-    <link rel="stylesheet" type="text/css" href="/HF_170216_JSP/createemployee/createemployee.css" />
-  </head>
-  <body>
-    <jsp:include page="../menu/menu.jsp"></jsp:include>
-    <%
+
+<jsp:include page="layout/head.jsp"></jsp:include>
+<link rel="stylesheet" type="text/css" href="/HF_170216_JSP/createemployee/createemployee.css" />
+
+<%
     if(auth.isloggedIn()) {
       if(auth.hasPermission("create_employee")) {
         
@@ -191,5 +177,5 @@
       response.sendRedirect("../index.jsp");
     }
     %>
-  </body>
-</html>
+
+<jsp:include page="/layout/foot.jsp"></jsp:include>  
