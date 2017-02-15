@@ -16,7 +16,6 @@ public class ChangeSalary extends model.Employee  {
 
   public ChangeSalary() throws ClassNotFoundException, SQLException{
     this.employee = Employee.getAll();
-
   }
   
 public String getName(String idValue) {
@@ -78,7 +77,7 @@ public String getName(String idValue) {
     else {
 
         employee.get(index).setSalary(newSalary);
-        employee.get(index).update();               // Adatbázisba nem megy bele!!!                              // kell még nyomni egy gombot, hogy visszalépjen!
+        employee.get(index).update();               
     return "Salary updated"; 
     }
   }
