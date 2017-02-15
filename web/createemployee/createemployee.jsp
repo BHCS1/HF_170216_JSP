@@ -22,8 +22,6 @@
   response.sendRedirect(request.getContextPath()+"/authentication/login.jsp");
   return;
 } %>
-
-
       
 <style>
   .nav-tabs {

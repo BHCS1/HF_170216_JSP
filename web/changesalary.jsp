@@ -1,42 +1,56 @@
-
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.Employee"%>
 <%@page import="java.util.ArrayList"%>
 <jsp:useBean id="change" class="jsp.ChangeSalary" scope="session"/>
 <jsp:useBean id="auth" class="jsp.AuthBean" scope="session"/>
 
+<jsp:include page="/layout/head.jsp"></jsp:include>
 
+<%if (!auth.isloggedIn()) {
+    response.sendRedirect(request.getContextPath() + "/authentication/login.jsp");
+    return;
+  }
+  if (!auth.hasPermission("salary_change")) {
+    response.sendRedirect(request.getContextPath() + "/authentication/login.jsp");
+    return;
+  }
+  String value = request.getParameter("emp_id");%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Employee's salary change</title>
-  </head>
-  <body>
-    <%if (!auth.isloggedIn()) {
-        response.sendRedirect(request.getContextPath() + "/authentication/login.jsp");
-        return;
-      }
-      if (!auth.hasPermission("salary_change")) {
-        response.sendRedirect(request.getContextPath() + "/authentication/login.jsp");
-        return;
-      }
-      String value = request.getParameter("emp_id");%>
-    <br><br> 
-    <p align="center">
-    <h3><p align="center">Employee's name: <%= change.getName(value) %> </h3> 
-    <h3><p align="center">Current salary: $ <%= change.getSalary() %></h3>
-    <form method=post>
-      <h3><p align="center">New salary <input type=text name=newsalary></h3>
-    <p align="center"><input type=submit value="Change">
-    </form>
-    <h3><p align="center">Please select a salary from $<%= change.getMinMaxSalary()[0] %> to $<%= change.getMinMaxSalary()[1] %></h3>
-    <h3><p align="center"><% if (request.getParameter("newsalary")!=null) {%>
-      <%= change.getMessages(request.getParameter("newsalary")) %></p></h3>
-      <% }%>
-      <a href="<%= request.getContextPath() %>/index.jsp"><p align="center">Back to the employee list</p></a>
-    
-  </body>
-</html>
+<div class="page-header">
+  <h1>Change Salary</h1>
+</div>
+  
+<h2><%= change.getName(value) %></h2>
+
+<form method=post>
+  <div class="panel panel-default">
+    <div class="panel-heading">New Salary</div>
+
+    <div class="panel-body">
+      <h3><p align="center">Please select a salary from $<%= change.getMinMaxSalary()[0] %> to $<%= change.getMinMaxSalary()[1] %></h3>
+      
+      <div class="input-group input-group-lg">
+        <span class="input-group-addon">$</span>
+        
+        <input type="text" class="form-control" name="newsalary" placeholder="Salary" title="Only digits." value="<%= request.getParameter("newsalary")==null?change.getSalary():request.getParameter("newsalary") %>">
+        
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit">
+            Change
+          </button>
+        </span>
+      </div>
+      
+    </div>
+  </div>
+      
+        
+  <% if (request.getParameter("newsalary")!=null) {%>
+  <div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <%= change.getMessages(request.getParameter("newsalary")) %>
+  </div>
+  <% }%>
+      
+</form>
+      
