@@ -156,7 +156,7 @@
 
               <div class="input-group input-group-lg">
                 <span class="input-group-addon">Email address</span>
-                <input type="text" class="form-control" name="email" placeholder="" pattern="^[a-zA-Z0-9_.-]*$" title="a-Z, 0-9, _, -, ., any other" aria-describedby="basic-addon2" value="<%= create.getEmail() %>">
+                <input type="text" class="form-control" name="email" placeholder="" pattern="^[a-zA-Z0-9_.]*$" title="Acceptable characters: a-Z, 0-9, _, ." aria-describedby="basic-addon2" value="<%= create.getEmail() %>">
                 <span class="input-group-addon" id="basic-addon2">@company.com</span>
               </div>
 

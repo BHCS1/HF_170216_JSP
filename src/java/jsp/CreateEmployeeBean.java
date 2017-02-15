@@ -66,13 +66,11 @@ public class CreateEmployeeBean extends model.Employee {
           /*letters (upper or lowercase)
             numbers (0-9)
             underscore (_)
-            dash (-)
-            point (.)
-            no spaces! or other characters*/
-          final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[a-zA-Z0-9_.-]*$", Pattern.CASE_INSENSITIVE);//Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+            point (.)*/
+          final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[a-zA-Z0-9_.]*$", Pattern.CASE_INSENSITIVE);//Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
           Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(getEmail());
           if(!matcher.find()) {
-            alerts.add("Invalid email address! Formal requirements: upper or lowercase, numberer (0-9), underscore (_), dash (-), point (.), any other characters.");
+            alerts.add("Invalid email address! Acceptable: upper or lowercase, numberer (0-9), underscore (_), point (.).");
           }
           else {
             try {

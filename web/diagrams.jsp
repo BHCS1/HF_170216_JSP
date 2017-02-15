@@ -12,7 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/c3.min.js"></script>
 
-<% if(!auth.isloggedIn()) {
+<% if(!auth.isloggedIn() || !auth.hasPermission("show_diagrams")) {
   response.sendRedirect(request.getContextPath()+"/authentication/login.jsp");
   return;
 } %>

@@ -25,7 +25,9 @@
             <th>Name</th>
             <th>Department</th>
             <th>Salary</th>
+            <% if(auth.hasPermission("salary_change")) { %>
             <th>Change</th>
+            <% } %>
         </tr>
     </thead>
     <tbody>
@@ -34,7 +36,9 @@
             <td class="name" title="Name"><%= employeeList.get(i).getFirstName()%> <%= employeeList.get(i).getLastName()%></td>
             <td class="dep" title="Department"><%= employeeList.get(i).getDepartmentName()%></td>
             <td class="salary" title="Salary">$<%= DecimalFormat.getInstance().format(employeeList.get(i).getSalary())%></td>
+            <% if(auth.hasPermission("salary_change")) { %>
             <td class="change col-xs-2"><a class="btn btn-primary btn-xs" href="${pageContext.request.contextPath}/changesalary.jsp?emp_id=<%= employeeList.get(i).getID()%>" title="Click to change salary">Change salary</a></td>
+            <% } %>
         </tr>
         <% } %>
     </tbody>
