@@ -21,9 +21,8 @@ public class CreateEmployeeBean extends model.Employee {
   private int currentstep=0;
   private final int STEPS_NUMBER;
   private final Employee THIS_EMP;
-  private StringBuffer sb=new StringBuffer();
   
-  private ArrayList<String> errors=new ArrayList<>();
+  private ArrayList<String> alerts=new ArrayList<>();
 
   public CreateEmployeeBean() {
     THIS_EMP=this;
@@ -38,69 +37,69 @@ public class CreateEmployeeBean extends model.Employee {
     
     steps.add(new Step("Instructions") {
       public boolean checking() {
-        errors.clear();
+        alerts.clear();
         return true;
       }
     });
     
     steps.add(new Step("Personal Details") {
       public boolean checking() {
-        errors.clear();
+        alerts.clear();
         
         if (getFirstName()==null) {
-          errors.add("Missing firstname.");
+          alerts.add("Missing firstname.");
         }
         else if(!getFirstName().matches(("[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+"))) {
-          errors.add("Invalid firstname.");
+          alerts.add("Invalid firstname.");
         }
         
         if (getLastName()==null) {
-          errors.add("Missing lastname.");
+          alerts.add("Missing lastname.");
         } else if(!getLastName().matches(("[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+"))) {
-          errors.add("Invalid lastname.");
+          alerts.add("Invalid lastname.");
         }
 
         if (getEmail()==null) {
-          errors.add("Missing email address.");
+          alerts.add("Missing email address.");
         }
         else {
-          final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+          final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[a-zA-Z0-9._%+-]{2,6}$", Pattern.CASE_INSENSITIVE);//Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
           Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(getEmail());
           if(!matcher.find()) {
-            errors.add("Invalid email address!");
+            alerts.add("Invalid email address! a-z, A-Z, 0-9, ., _");
           }
           else {
             try {
               if(Employee.emailExists(getEmail()))
-                errors.add("Existing email, please type another email address!");
+                alerts.add("Existing email, please type another email address!");
             }
             catch (SQLException ex) {
-              errors.add("Querying data failed!");
+              alerts.add("Querying data failed!");
             }
             catch(ClassNotFoundException ex) {
-              errors.add("Most probably misssing ojdbc driver!");
+              alerts.add("Most probably misssing ojdbc driver!");
             }
           }
         }
         
-        return errors.size()<=0;
+        return alerts.size()<=0;
       }
     });
     
     steps.add(new Step("Department & Job") {
       @Override
       public boolean checking() {
-        errors.clear();
+        alerts.clear();
         
         boolean depValid=getDepartmentId()!=-1;
         
         if(!depValid)
-          errors.add("Select a department.");
+          alerts.add("Select a department.");
         
         boolean jobValid=getJob()!=null;
         
         if(!jobValid)
-          errors.add("Select a job.");
+          alerts.add("Select a job.");
         
         return (depValid & jobValid);
       }
@@ -109,7 +108,7 @@ public class CreateEmployeeBean extends model.Employee {
     steps.add(new Step("Salary") {
       @Override
       public boolean checking() {
-        errors.clear();
+        alerts.clear();
         
         Job currentJob=getJob();
         int minSalary=currentJob.getMinSalary();
@@ -120,17 +119,17 @@ public class CreateEmployeeBean extends model.Employee {
         boolean maxVal=(currentSalary<=maxSalary);
         
         if(!minValid) {
-          errors.add("Too low.");
+          alerts.add("Too low.");
           setSalary(minSalary);
         }
         
         if(!maxVal) {
-          errors.add("Too high.");
+          alerts.add("Too high.");
           setSalary(maxSalary);
         }
         
         if(!minValid || !maxVal)
-          errors.add("Attention! Payment received value automatically.");
+          alerts.add("Attention! Payment received value automatically.");
         
         return (minValid & maxVal);
       }
@@ -139,7 +138,7 @@ public class CreateEmployeeBean extends model.Employee {
     steps.add(new Step("Summary") {
       @Override
       public boolean checking() {
-        errors.clear();
+        alerts.clear();
         return true;
       }
     });
@@ -147,8 +146,8 @@ public class CreateEmployeeBean extends model.Employee {
     this.STEPS_NUMBER=steps.size();
   }
 
-  public ArrayList<String> getErrors() {
-    return errors;
+  public ArrayList<String> getAlerts() {
+    return alerts;
   }
   
 

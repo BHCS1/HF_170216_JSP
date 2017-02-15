@@ -125,15 +125,15 @@ public class Department extends Model {
   }
     
     public int getId() {
-    return id;
+    return this.id;
   }
     
     public String getName() {
-    return name;
+    return this.name;
   }
 
     public int getManagerId() {
-    return managerId;
+    return this.managerId;
   }
   
   public int getSumSalary() throws SQLException, ClassNotFoundException {

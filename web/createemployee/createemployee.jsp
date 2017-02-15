@@ -18,7 +18,6 @@
 
 
 <jsp:include page="/layout/head.jsp"></jsp:include>
-<link rel="stylesheet" type="text/css" href="/HF_170216_JSP/createemployee/createemployee.css" />
 
 <% if(!auth.isloggedIn() || !auth.hasPermission("create_employee")) {
   response.sendRedirect(request.getContextPath()+"/authentication/login.jsp");
@@ -31,33 +30,38 @@
 
 <%
     ArrayList<Step> steps=create.getSteps();
-    ArrayList<String> errors=create.getErrors();
+    ArrayList<String> alerts=create.getAlerts();
     final int STEPS_NUMBER=create.getSTEPS_NUMBER();
 
     int index=create.getCurrentstep();
 
     if(request.getParameter("finish")!=null) {
+      create.setHireDate(new java.sql.Date(new java.util.Date().getTime()));
 
-    create.setHireDate(new java.sql.Date(new java.util.Date().getTime()));
+      int managerId=create.getDepartment().getManagerId();
+      create.setManagerId(managerId==0?100:managerId);
 
-    int managerId=create.getDepartment().getManagerId();
-    create.setManagerId(managerId);
-    out.print(":"+managerId+":");
-    //int i=create.save();
+      int returnVal=create.save();
 %>
-    <script type="text/javascript" language="JavaScript">
-      window.onload = function() {
-        var returnVal=<%= 2 %>;
-        if(var!=-1) {
-          alert("New employee created.");
-        }
-    </script>
+      <script type="text/javascript" language="JavaScript">
+        window.onload = function() {
+          var returnVal=<%= returnVal %>;
+          if(3!==-1) {
+            alert("Employee included in to the database.\nAfter approved will be navigating to home page.");
+          }
+          else {
+            alert("Request failed.");
+          }
+          window.location = 'removeAttribute.jsp';
+          return;
+        };
+      </script>
 <%
-    //response.sendRedirect("${pageContext.request.contextPath}/createemployee/removeAttribute.jsp");
+    //response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 
     if(request.getParameter("back")!=null) {
-      errors.clear();
+      alerts.clear();
       index--;
       create.setCurrentstep(index);
     }
@@ -79,12 +83,24 @@
     }
 %>
     <div class="panel">
-      <div class="tabs">
+      
+      <div class="panel panel-body">
       <% for (int i = 0; i < STEPS_NUMBER; i++) { %>
-            <label class="<%= (index==i?"active":"") %>">
+      <ul class="nav nav-tabs" style="float:left">
+        <li role="presentation" class="<%= (index==i?"active":"") %>">
+          <a href="#" style="pointer-events: none">
             <%= ( (i+1) + ". " + steps.get(i).getTitle() ) %>
-            </label>
+          </a>
+        </li>
+      </ul>
       <% } %>
+      </div>
+      
+      <div class="progress">
+        <% double process= index / (STEPS_NUMBER/100.0); %>
+        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= STEPS_NUMBER %>" style="width: <%= (int)process %>%">
+          <span class="sr-only"><%= (int)process %>% Complete (success)</span>
+        </div>
       </div>
 
       <form action="${pageContext.request.contextPath}/createemployee/createemployee.jsp" method="post">
@@ -95,26 +111,35 @@
           <p>Set the employee's salary between the given limits</p>
         </div>
 
-        <div class="content" style="display:<%= (index==1)?"visibility":"none" %>">
-          <input type="text" name="firstName" placeholder="Firstname" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only Hungarian characters" autofocus="" value="<%= create.getFirstName()%>">
-          <input type="text" name="lastName" placeholder="Lastname" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only Hungarian characters" value="<%= create.getLastName()%>">
-          <input type="text" name="email" placeholder="Email address" value="<%= create.getEmail() %>">
-          <input type="text" name="phoneNumber" placeholder="Phone number" pattern="[0-9]{7,10}" title="A minimum of seven and a maximum of 10 digits." value="<%= create.getPhoneNumber()%>">
+        <div class="form-group" style="display:<%= (index==1)?"visibility":"none" %>">
+          <div class="input-group input-group-lg">
+            <span class="input-group-addon">Firstname</span>
+            <input type="text" class="form-control" name="firstName" placeholder="Firstname" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only Hungarian characters" autofocus="" value="<%= create.getFirstName()%>">
+          </div>
+          
+          <div class="input-group input-group-lg">
+            <input type="text" class="form-control" name="lastName" placeholder="Lastname" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only Hungarian characters" value="<%= create.getLastName()%>">
+          </div>
+            
+          <div class="input-group input-group-lg">
+            <input type="text" class="form-control" name="email" placeholder="Email address" aria-describedby="basic-addon2" value="<%= create.getEmail() %>">
+            <span class="input-group-addon" id="basic-addon2">@company.com</span>
+          </div>
+          
+          <div class="input-group input-group-lg">
+            <input type="text" class="form-control" name="phoneNumber" placeholder="Phone number" pattern="[0-9]{7,10}" title="A minimum of seven and a maximum of 10 digits." value="<%= create.getPhoneNumber()%>">
+          </div>
         </div>
 
         <div class="content" style="display:<%= (index==2)?"visibility":"none" %>">
           <h3 class="list-head">Department</h3>
           <ul>
           <%
-            ArrayList<Department> departments=Department.getAll();
-            for (int i = 0; i < departments.size(); i++) {
-
-              Department currDep=departments.get(i);
-              int sessDepId=create.getDepartmentId(); %>
-
+            for (Department dept : Department.getAll()) {
+              boolean adjusted=( dept.getId()==create.getDepartmentId() ); %>
               <li>
-                <input type="radio" class="content" name="departmentId" value="<%= (currDep.getId()) %>" <%= ( (currDep.getId()==sessDepId)?"checked":"" ) %>>
-                <%= currDep.getName() %>
+                <input type="radio" class="content" name="departmentId" value="<%= (dept.getId()) %>" <%= ( adjusted?"checked":"" ) %>>
+                <%= dept.getName() %>
               </li>
           <% } %>
           </ul>
@@ -157,31 +182,36 @@
           <h3>Salary: $<%= create.getSalary() %></h3>
         </div>
         
-        <% if(errors.size()>0) { %>
-        <div id="err" class="err">
-          <%= String.join("<br>", errors) %>
-        </div>
-        <% } %>
+        <% if(alerts.size()>0) {
+          for (int i = 0; i < alerts.size(); i++) { %>
+          <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            <%= alerts.get(i).toString() %>
+          </div>
+          <% }
+        } %>
 
         <script type="text/javascript" language="JavaScript">
           function cancel() {
-            if(confirm("Distrupt the operation?") === true) {
+            if(confirm("Are you sure you cancel the operation?") === true) {
               window.location = 'removeAttribute.jsp';
+              return;
             }
           };
         </script>
         
-        <div class="buttons">
-          <button onclick="cancel()" class="btn" type="button">
+        <div class="bt-group  btn-group-lg" role="group" area-label="4">
+          <button onclick="cancel()" class="btn btn-default" type="button">
             Cancel
           </button>
-          <button name="back" class="btn" type="submit" <%= ( (index > 0 && (STEPS_NUMBER > 1) )?"enabled":"disabled" ) %> >
+          <button name="back" class="btn btn-default" type="submit" <%= ( (index > 0 && (STEPS_NUMBER > 1) )?"enabled":"disabled" ) %> >
             Back
           </button>
-          <button id="next" name="next" class="btn" type="submit" <%= ( (index < (STEPS_NUMBER - 1) && (STEPS_NUMBER > 1))?"enabled":"disabled" ) %>>
+          <button id="next" name="next" class="btn btn-default" type="submit" <%= ( (index < (STEPS_NUMBER - 1) && (STEPS_NUMBER > 1))?"enabled":"disabled" ) %>>
             Next
           </button>
-          <button name="finish" class="btn" type="submit" <%= ( (index==STEPS_NUMBER-1)?"enabled":"disabled" ) %>>
+          <button name="finish" class="btn btn-default" type="submit" <%= ( (index==STEPS_NUMBER-1)?"enabled":"disabled" ) %>>
             Finish
           </button>
         </div>
