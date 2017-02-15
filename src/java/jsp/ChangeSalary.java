@@ -19,13 +19,20 @@ public class ChangeSalary extends model.Employee  {
   
 public String getName(String idValue) {
   int i=0;
-  if (idValue==null)
-    id=100;
-  int id = Integer.parseInt(idValue);
+  int id=0;
+  try{
+  id = Integer.parseInt(idValue);
+  }
+  catch (NumberFormatException e ){
+    id=this.id;
+  }
+  finally {
+  this.id=id;
   while (i<employee.size() && id!=employee.get(i).getID() )
     i++;
   this.index=i;
-  return employee.get(i).getName();
+  return employee.get(i).getName(); 
+  }
 }
   @Override
   public int getSalary() {

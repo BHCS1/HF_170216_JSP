@@ -15,10 +15,10 @@
   </head>
   <body>
     <%String value=""; 
-      if (request.getParameter("emp_id")==null) {
-      response.sendRedirect(request.getContextPath()+"/authentication/login.jsp");
-      }
-      else 
+//      if (request.getParameter("emp_id")==null) {
+//      response.sendRedirect(request.getContextPath()+"/authentication/login.jsp");
+//      }
+//      else 
       value = request.getParameter("emp_id");%>
     <br><br> 
     <p align="center">
