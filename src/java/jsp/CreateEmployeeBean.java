@@ -116,12 +116,23 @@ public class CreateEmployeeBean extends model.Employee {
         int maxSalary=currentJob.getMaxSalary();
         int currentSalary=getSalary();
         
-        boolean valid=(currentSalary>=minSalary && currentSalary<=maxSalary);
+//        boolean valid=(currentSalary>=minSalary && currentSalary<=maxSalary);
+//        
+//        if (!valid)
+//          errors.add("Invalid salary.");
+//        
+//        return valid;
         
-        if (!valid)
-          errors.add("Invalid salary.");
+        boolean minValid=(currentSalary>=minSalary);
+        boolean maxVal=(currentSalary<=maxSalary);
         
-        return valid;
+        if(!minValid)
+          errors.add("Too low.");
+        
+        if(!maxVal)
+          errors.add("Too high.");
+        
+        return (minValid & maxVal);
       }
     });
     
