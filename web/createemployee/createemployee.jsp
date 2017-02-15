@@ -17,7 +17,7 @@
 <jsp:setProperty name="create" property="salary"/>
 
 
-<jsp:include page="layout/head.jsp"></jsp:include>
+<jsp:include page="/layout/head.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="/HF_170216_JSP/createemployee/createemployee.css" />
 
 <%
