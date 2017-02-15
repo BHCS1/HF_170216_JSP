@@ -113,6 +113,12 @@ public class Job extends Model {
     this.maxSalary = maxSalary;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if(!(obj instanceof Job))
+      return false;
+    return this.getId().equals( ((Job)obj).getId() );
     
+  }
   
 }

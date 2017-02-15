@@ -132,6 +132,10 @@ public class Department extends Model {
     return name;
   }
 
+    public int getManagerId() {
+    return managerId;
+  }
+  
   public int getSumSalary() throws SQLException, ClassNotFoundException {
     connect();
 

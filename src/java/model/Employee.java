@@ -170,7 +170,7 @@ public class Employee extends Model {
 
   public Department getDepartment() {
     if (department == null) {
-      department = new Department(departmentId, departmentName);
+      department = Department.get(departmentId);//new Department(departmentId, departmentName);
     }
     
     return department;
