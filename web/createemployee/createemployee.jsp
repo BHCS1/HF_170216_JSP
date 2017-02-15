@@ -51,9 +51,16 @@
             index++;
             create.setCurrentstep(index);
           }
+          else {
+          %>
+          <script type="text/javascript" language="JavaScript">
+            window.onload = function() {
+              window.scrollTo(0,document.body.scrollHeight);
+            }
+          </script>
+          <%
+          }
         }
-        
-
         %>
         <div class="panel">
           <div class="tabs">
@@ -108,7 +115,7 @@
                   Job currJob=j;
                   sessDepId=create.getJobId();
                   
-                  boolean current = (currJob.getId().equals(j.getId()));
+                  boolean current = (currJob.getId().equals(sessDepId));
                   
                   out.print("<li><input type=\"radio\" class=\"content\" name=\"jobId\" value=\""+(currJob.getId())+"\""+( current?"checked":"" )+">"+j.getTitle()+"</li>");
                 }
@@ -126,14 +133,14 @@
                   minSalary=create.getJob().getMinSalary();
                   maxSalary=create.getJob().getMaxSalary();
                 %>
-                <h3 calss="list-head">$<%= minSalary %> - $<%= maxSalary %></h3>
+                <h3 calss="list-head">Determination salary (between $<%= minSalary %> and $<%= maxSalary %>)</h3>
                 <%
                   }
                   catch(NullPointerException e) {
                     ;
                   }
                 %>
-              <input type="text" name="salary" placeholder="Salary" pattern="[0-9]" title="Only digits." value="<%= create.getSalary()==0?"":create.getSalary() %>">
+              <input type="number" name="salary" placeholder="Salary" pattern="/[0-9]/" title="Only digits." value="<%= create.getSalary()==0?"":create.getSalary() %>">
             </div>
             
               <%
@@ -143,7 +150,7 @@
                 <h3>Name: <%= create.getFirstName() %> <%= create.getFirstName() %></h3>
                 <h3>Email: <%= create.getEmail() %></h3>
                 <h3>Phone: <%= create.getPhoneNumber()%></h3>
-                <h3>Department: <%= create.getDepartment() %></h3>
+                <h3>Department: <%= create.getDepartment().getName() %></h3>
                 <h3>Job: <%= create.getJob() %></h3>
                 <h3>Salary: <%= create.getSalary() %></h3>
               </div>
@@ -155,7 +162,7 @@
 
               if(errors.size()>0) {
                 %>
-                <div class="err"><%= String.join("<br>", errors) %></div>
+                <div id="err" class="err"><%= String.join("<br>", errors) %></div>
                 <%
               }
               %>
