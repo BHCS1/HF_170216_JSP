@@ -123,9 +123,9 @@
       </div>
       
       <div class="progress">
-        <% double process= index / (STEPS_NUMBER/100.0); %>
-        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= STEPS_NUMBER %>" style="width: <%= (int)process %>%">
-          <span class="sr-only"><%= (int)process %>% Complete (success)</span>
+        <% double completed= index / ((STEPS_NUMBER-1)/100.0); %>
+        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= STEPS_NUMBER %>" style="width: <%= (int)completed %>%">
+          <span class="sr-only"><%= (int)completed %>% Complete (success)</span>
         </div>
       </div>
 
@@ -146,23 +146,23 @@
             <div class="form-group" style="display:<%= (index==1)?"visibility":"none" %>">
               <div class="input-group input-group-lg">
                 <span class="input-group-addon">Firstname</span>
-                <input type="text" class="form-control" name="firstName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only upper or lowercase" value="<%= create.getFirstName()%>">
+                <input type="text" class="form-control" name="firstName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only upper or lowercase" value="<%= create.getFirstName()==null?"":create.getFirstName() %>">
               </div>
 
               <div class="input-group input-group-lg">
                 <span class="input-group-addon">Lastname</span>
-                <input type="text" class="form-control" name="lastName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only upper or lowercase" value="<%= create.getLastName()%>">
+                <input type="text" class="form-control" name="lastName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only upper or lowercase" value="<%= create.getLastName()==null?"":create.getLastName() %>">
               </div>
 
               <div class="input-group input-group-lg">
                 <span class="input-group-addon">Email address</span>
-                <input type="text" class="form-control" name="email" placeholder="" pattern="^[a-zA-Z0-9_.]*$" title="Acceptable characters: a-Z, 0-9, _, ." aria-describedby="basic-addon2" value="<%= create.getEmail() %>">
+                <input type="text" class="form-control" name="email" placeholder="" pattern="^[a-zA-Z0-9_.]*$" title="Acceptable characters: a-Z, 0-9, _, ." aria-describedby="basic-addon2" value="<%= create.getEmail()==null?"":create.getEmail() %>">
                 <span class="input-group-addon" id="basic-addon2">@company.com</span>
               </div>
 
               <div class="input-group input-group-lg">
                 <span class="input-group-addon">Phone number</span>
-                <input type="text" class="form-control" name="phoneNumber" placeholder="" pattern="[0-9]{7,10}" title="A minimum of seven and a maximum of 10 digits." value="<%= create.getPhoneNumber()%>">
+                <input type="text" class="form-control" name="phoneNumber" placeholder="" pattern="[0-9]{7,10}" title="A minimum of seven and a maximum of 10 digits." value="<%= create.getPhoneNumber()==null?"":create.getPhoneNumber() %>">
               </div>
             </div>
           </div>
@@ -173,7 +173,7 @@
           <div class="panel-body">
             <ul class="list">
             <%
-              for (Department dept : Department.getAll()) {
+              for (Department dept : create.getDepartments()){
                 boolean adjusted=( dept.getId()==create.getDepartmentId() ); %>
                 <li>
                   <input type="radio" class="content" name="departmentId" value="<%= (dept.getId()) %>" <%= ( adjusted?"checked":"" ) %>>
@@ -222,7 +222,7 @@
         <div class="panel panel-default" style="display:<%= (index==4)?"visibility":"none"%>">
           <div class="panel-heading">Summary</div>
           <div class="panel-body">
-            <h3>Name: <%= create.getFirstName() %> <%= create.getFirstName() %></h3>
+            <h3>Name: <%= create.getFirstName() %> <%= create.getLastName() %></h3>
             <h3>Email: <%= create.getEmail() %></h3>
             <h3>Phone: <%= create.getPhoneNumber()%></h3>
             <% Department dep=create.getDepartment(); %>

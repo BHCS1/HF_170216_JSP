@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import model.Department;
 import model.Employee;
 import model.Job;
 
@@ -20,14 +21,11 @@ public class CreateEmployeeBean extends model.Employee {
   private ArrayList<Step> steps=new ArrayList<>();
   private int currentstep=0;
   private final int STEPS_NUMBER;
-  
+  private ArrayList<Department> departments;
   private ArrayList<String> alerts=new ArrayList<>();
 
   public CreateEmployeeBean() {
     this.setDepartmentId(-1);
-    this.setFirstName("");
-    this.setLastName("");
-    this.setEmail("");
     this.setPhoneNumber("");
     this.setJobId("");
     this.setSalary(0);
@@ -59,7 +57,9 @@ public class CreateEmployeeBean extends model.Employee {
         if (getEmail()==null) {
           alerts.add("Missing email address.");
         }
-        else {
+        else if(getEmail().length()<3 || getEmail().length()>254) {
+          alerts.add("Length invalid e-mail address.");
+        }else {
           /*letters (upper or lowercase)
             numbers (0-9)
             underscore (_)
@@ -166,4 +166,17 @@ public class CreateEmployeeBean extends model.Employee {
   public void setCurrentstep(int currentstep) {
     this.currentstep = currentstep;
   }
+
+  public ArrayList<Department> getDepartments() {
+    try {
+    if(departments==null)
+      departments=Department.getAll();
+    }
+    catch (Exception e) {
+      ;
+    }
+    return departments;
+  }
+  
+  
 }
