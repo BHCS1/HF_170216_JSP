@@ -13,7 +13,7 @@
     <title>Employee's salary change</title>
   </head>
   <body>
-    <%String value="105"; 
+    <%String value=""; 
       if (request.getParameter("emp_id")==null)
       ;
       else 
