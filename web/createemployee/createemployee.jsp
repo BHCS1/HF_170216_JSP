@@ -16,7 +16,6 @@
 <jsp:setProperty name="create" property="jobId"/>
 <jsp:setProperty name="create" property="salary"/>
 
-
 <jsp:include page="/layout/head.jsp"></jsp:include>
 
 <% if(!auth.isloggedIn() || !auth.hasPermission("create_employee")) {
@@ -24,6 +23,32 @@
   return;
 } %>
 
+
+      
+<style>
+  .nav-tabs {
+    float: left;
+  }
+  
+  .nav-tabs a {
+    pointer-events: none;
+  }
+  
+  .input-group {
+    padding: 10px;
+  }
+  
+  .input-group input {
+    width: 1300px;
+  }
+  
+  .panel-body .list li {
+    width: 25%;
+    list-style-type: none;
+    float: left;
+  }
+</style>
+      
 <div class="page-header">
   <h1>Create New Employee</h1>
 </div>
@@ -47,7 +72,7 @@
         window.onload = function() {
           var returnVal=<%= returnVal %>;
           if(3!==-1) {
-            alert("Employee included in to the database.\nAfter approved will be navigating to home page.");
+            alert("Employee added to the database.\nAfter approval will be navigated to home page.");
           }
           else {
             alert("Request failed.");
@@ -84,11 +109,12 @@
 %>
     <div class="panel">
       
+      <!-- Tabs -->
       <div class="panel panel-body">
       <% for (int i = 0; i < STEPS_NUMBER; i++) { %>
-      <ul class="nav nav-tabs" style="float:left">
+      <ul class="nav nav-tabs">
         <li role="presentation" class="<%= (index==i?"active":"") %>">
-          <a href="#" style="pointer-events: none">
+          <a href="#">
             <%= ( (i+1) + ". " + steps.get(i).getTitle() ) %>
           </a>
         </li>
@@ -105,81 +131,106 @@
 
       <form action="${pageContext.request.contextPath}/createemployee/createemployee.jsp" method="post">
         
-        <div class="content" style="display:<%= (index==0)?"visibility":"none" %>">
-          New employee's first name and last name without any digit character</p>
-          <p>Select the department and the job title</p>
-          <p>Set the employee's salary between the given limits</p>
-        </div>
-
-        <div class="form-group" style="display:<%= (index==1)?"visibility":"none" %>">
-          <div class="input-group input-group-lg">
-            <span class="input-group-addon">Firstname</span>
-            <input type="text" class="form-control" name="firstName" placeholder="Firstname" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only Hungarian characters" autofocus="" value="<%= create.getFirstName()%>">
-          </div>
-          
-          <div class="input-group input-group-lg">
-            <input type="text" class="form-control" name="lastName" placeholder="Lastname" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only Hungarian characters" value="<%= create.getLastName()%>">
-          </div>
-            
-          <div class="input-group input-group-lg">
-            <input type="text" class="form-control" name="email" placeholder="Email address" aria-describedby="basic-addon2" value="<%= create.getEmail() %>">
-            <span class="input-group-addon" id="basic-addon2">@company.com</span>
-          </div>
-          
-          <div class="input-group input-group-lg">
-            <input type="text" class="form-control" name="phoneNumber" placeholder="Phone number" pattern="[0-9]{7,10}" title="A minimum of seven and a maximum of 10 digits." value="<%= create.getPhoneNumber()%>">
+        <div class="panel panel-default" style="display:<%= (index==0)?"visibility":"none" %>">
+          <div class="panel-heading">Instructions</div>
+          <div class="panel-body">
+            New employee's first name and last name without any digit character</p>
+            <p>Select the department and the job title</p>
+            <p>Set the employee's salary between the given limits</p>
           </div>
         </div>
 
-        <div class="content" style="display:<%= (index==2)?"visibility":"none" %>">
-          <h3 class="list-head">Department</h3>
-          <ul>
-          <%
-            for (Department dept : Department.getAll()) {
-              boolean adjusted=( dept.getId()==create.getDepartmentId() ); %>
-              <li>
-                <input type="radio" class="content" name="departmentId" value="<%= (dept.getId()) %>" <%= ( adjusted?"checked":"" ) %>>
-                <%= dept.getName() %>
-              </li>
-          <% } %>
-          </ul>
+        <div class="panel panel-default" style="display:<%= (index==1)?"visibility":"none" %>">
+          <div class="panel-heading">Personal Details</div>
+          <div class="panel-body">
+            <div class="form-group" style="display:<%= (index==1)?"visibility":"none" %>">
+              <div class="input-group input-group-lg">
+                <span class="input-group-addon">Firstname</span>
+                <input type="text" class="form-control" name="firstName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only Hungarian characters" autofocus="" value="<%= create.getFirstName()%>">
+              </div>
+
+              <div class="input-group input-group-lg">
+                <span class="input-group-addon">Lastname</span>
+                <input type="text" class="form-control" name="lastName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only Hungarian characters" value="<%= create.getLastName()%>">
+              </div>
+
+              <div class="input-group input-group-lg">
+                <span class="input-group-addon">Email address</span>
+                <input type="text" class="form-control" name="email" placeholder="" pattern="^[a-zA-Z0-9_.-]*$" title="a-Z, 0-9, _, -, ., any other" aria-describedby="basic-addon2" value="<%= create.getEmail() %>">
+                <span class="input-group-addon" id="basic-addon2">@company.com</span>
+              </div>
+
+              <div class="input-group input-group-lg">
+                <span class="input-group-addon">Phone number</span>
+                <input type="text" class="form-control" name="phoneNumber" placeholder="" pattern="[0-9]{7,10}" title="A minimum of seven and a maximum of 10 digits." value="<%= create.getPhoneNumber()%>">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default" style="display:<%= (index==2)?"visibility":"none" %>">
+          <div class="panel-heading">Department</div>
+          <div class="panel-body">
+            <ul class="list">
+            <%
+              for (Department dept : Department.getAll()) {
+                boolean adjusted=( dept.getId()==create.getDepartmentId() ); %>
+                <li>
+                  <input type="radio" class="content" name="departmentId" value="<%= (dept.getId()) %>" <%= ( adjusted?"checked":"" ) %>>
+                  <%= dept.getName() %>
+                </li>
+            <% } %>
+            </ul>
+          </div>
         </div> 
 
-        <div class="content" style="display:<%= (index==2)?"visibility":"none"%>">
-          <h3 class="list-head">Job</h3>
-          <ul>
-          <%
-            for (Job job : Job.getAll()) {
-              boolean adjusted = ( create.getJob()!=null && job.equals( create.getJob() ) ); %>
-              <li>
-                <input type="radio" class="content" name="jobId" value="<%= (job.getId()) %>" <%= ( adjusted?"checked":"" ) %>>
-                <%= job.getTitle() %>
-              </li>
-          <% } %>
-          </ul>
+        <div class="panel panel-default" style="display:<%= (index==2)?"visibility":"none"%>">
+          <div class="panel-heading">Job</div>
+          <div class="panel-body">
+            <ul class="list">
+            <%
+              for (Job job : Job.getAll()) {
+                boolean adjusted = ( create.getJob()!=null && job.equals( create.getJob() ) ); %>
+                <li>
+                  <input type="radio" class="content" name="jobId" value="<%= (job.getId()) %>" <%= ( adjusted?"checked":"" ) %>>
+                  <%= job.getTitle() %>
+                </li>
+            <% } %>
+            </ul>
+          </div>
         </div>
 
-        <div class="content" style="display:<%= (index==3)?"visibility":"none"%>">
-          <%
-            int minSalary=0, maxSalary=0;
-            if(create.getJob()!=null) {
-            minSalary=create.getJob().getMinSalary();
-            maxSalary=create.getJob().getMaxSalary();
-          %>
-          <h3 calss="list-head">Determination salary (between $<%= minSalary %> and $<%= maxSalary %>)</h3>
-          <% } %>
-          <input type="number" name="salary" placeholder="Salary" pattern="/[0-9]/" title="Only digits." value="<%= create.getSalary()==0?"":create.getSalary() %>">
+        <div class="panel panel-default" style="display:<%= (index==3)?"visibility":"none"%>">
+          <div class="panel-heading">Salary</div>
+          
+          <div class="panel-body">
+            <%
+              int minSalary=0, maxSalary=0;
+              if(create.getJob()!=null) {
+              minSalary=create.getJob().getMinSalary();
+              maxSalary=create.getJob().getMaxSalary();
+            %>
+            Determination salary (between $<%= minSalary %> and $<%= maxSalary %>)
+            <% } %>
+            <div class="input-group input-group-lg">
+              <span class="input-group-addon">$</span>
+              <input type="number" class="form-control" name="salary" placeholder="Salary" pattern="/[0-9]/" title="Only digits." value="<%= create.getSalary()==0?"":create.getSalary() %>">
+            </div>
+          </div>
         </div>
         
-        <div class="content" style="display:<%= (index==4)?"visibility":"none"%>">
-          <h3>Name: <%= create.getFirstName() %> <%= create.getFirstName() %></h3>
-          <h3>Email: <%= create.getEmail() %></h3>
-          <h3>Phone: <%= create.getPhoneNumber()%></h3>
-          <% Department dep=create.getDepartment(); %>
-          <h3>Department: <%= (dep!=null?dep.getName():null) %></h3>
-          <% Job job=create.getJob(); %>
-          <h3>Job: <%= (job!=null?job.getTitle():null) %></h3>
-          <h3>Salary: $<%= create.getSalary() %></h3>
+        <div class="panel panel-default" style="display:<%= (index==4)?"visibility":"none"%>">
+          <div class="panel-heading">Summary</div>
+          <div class="panel-body">
+            <h3>Name: <%= create.getFirstName() %> <%= create.getFirstName() %></h3>
+            <h3>Email: <%= create.getEmail() %></h3>
+            <h3>Phone: <%= create.getPhoneNumber()%></h3>
+            <% Department dep=create.getDepartment(); %>
+            <h3>Department: <%= (dep!=null?dep.getName():null) %></h3>
+            <% Job job=create.getJob(); %>
+            <h3>Job: <%= (job!=null?job.getTitle():null) %></h3>
+            <h3>Salary: $<%= create.getSalary() %></h3>
+          </div>
         </div>
         
         <% if(alerts.size()>0) {

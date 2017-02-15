@@ -63,10 +63,16 @@ public class CreateEmployeeBean extends model.Employee {
           alerts.add("Missing email address.");
         }
         else {
-          final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[a-zA-Z0-9._%+-]{2,6}$", Pattern.CASE_INSENSITIVE);//Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+          /*letters (upper or lowercase)
+            numbers (0-9)
+            underscore (_)
+            dash (-)
+            point (.)
+            no spaces! or other characters*/
+          final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[a-zA-Z0-9_.-]*$", Pattern.CASE_INSENSITIVE);//Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
           Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(getEmail());
           if(!matcher.find()) {
-            alerts.add("Invalid email address! a-z, A-Z, 0-9, ., _");
+            alerts.add("Invalid email address! Formal requirements: upper or lowercase, numberer (0-9), underscore (_), dash (-), point (.), any other characters.");
           }
           else {
             try {
@@ -129,7 +135,7 @@ public class CreateEmployeeBean extends model.Employee {
         }
         
         if(!minValid || !maxVal)
-          alerts.add("Attention! Payment received value automatically.");
+          alerts.add("Attention! Salary received value automatically.");
         
         return (minValid & maxVal);
       }

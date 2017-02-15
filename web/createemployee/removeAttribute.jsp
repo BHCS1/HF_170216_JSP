@@ -13,6 +13,6 @@
   if (bean != null) {
     bean = new CreateEmployeeBean();
     session.setAttribute("create",bean);
-    response.sendRedirect("createemployee.jsp");
+    response.sendRedirect(request.getContextPath()+"/index.jsp");
   }
 %>
