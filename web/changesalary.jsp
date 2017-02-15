@@ -3,6 +3,7 @@
 <%@page import="model.Employee"%>
 <%@page import="java.util.ArrayList"%>
 <jsp:useBean id="change" class="jsp.ChangeSalary" scope="session"/>
+<jsp:setProperty name="change" property="*"/>
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,8 +15,9 @@
   </head>
   <body>
     <%String value=""; 
-      if (request.getParameter("emp_id")==null)
-      ;
+      if (request.getParameter("emp_id")==null) {
+      response.sendRedirect(request.getContextPath()+"/authentication/login.jsp");
+      }
       else 
       value = request.getParameter("emp_id");%>
     <br><br> 

@@ -11,6 +11,7 @@ public class ChangeSalary extends model.Employee  {
   private int index;
   private int newSalary;
   int[] salaryMinMax= new int[2];
+  private int id;
 
   public ChangeSalary() throws ClassNotFoundException, SQLException{
     this.employee = Employee.getAll();
@@ -18,6 +19,8 @@ public class ChangeSalary extends model.Employee  {
   
 public String getName(String idValue) {
   int i=0;
+  if (idValue==null)
+    id=100;
   int id = Integer.parseInt(idValue);
   while (i<employee.size() && id!=employee.get(i).getID() )
     i++;
