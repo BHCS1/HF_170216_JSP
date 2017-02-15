@@ -46,7 +46,7 @@ public class Job extends Model {
     } catch (SQLException ex) {
       ;
     } catch (ClassNotFoundException ex) {
-      Logger.getLogger(Job.class.getName()).log(Level.SEVERE, null, ex);
+      ;
     }
 
     disconnect();
