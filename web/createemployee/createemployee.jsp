@@ -173,7 +173,7 @@
           <div class="panel-body">
             <ul class="list">
             <%
-              for (Department dept : create.getDepartments()){
+              for (Department dept : create.getDepartments()) {
                 boolean adjusted=( dept.getId()==create.getDepartmentId() ); %>
                 <li>
                   <input type="radio" class="content" name="departmentId" value="<%= (dept.getId()) %>" <%= ( adjusted?"checked":"" ) %>>
