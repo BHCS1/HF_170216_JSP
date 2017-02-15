@@ -20,13 +20,10 @@ public class CreateEmployeeBean extends model.Employee {
   private ArrayList<Step> steps=new ArrayList<>();
   private int currentstep=0;
   private final int STEPS_NUMBER;
-  private final Employee THIS_EMP;
   
   private ArrayList<String> alerts=new ArrayList<>();
 
   public CreateEmployeeBean() {
-    THIS_EMP=this;
-    
     this.setDepartmentId(-1);
     this.setFirstName("");
     this.setLastName("");
@@ -153,7 +150,6 @@ public class CreateEmployeeBean extends model.Employee {
   public ArrayList<String> getAlerts() {
     return alerts;
   }
-  
 
   public int getSTEPS_NUMBER() {
     return STEPS_NUMBER;
@@ -161,10 +157,6 @@ public class CreateEmployeeBean extends model.Employee {
 
   public ArrayList<Step> getSteps() {
     return steps;
-  }
-  
-  public Step getStep(int i) {
-    return steps.get(i);
   }
 
   public int getCurrentstep() {

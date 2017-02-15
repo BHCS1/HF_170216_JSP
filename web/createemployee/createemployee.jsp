@@ -146,7 +146,7 @@
             <div class="form-group" style="display:<%= (index==1)?"visibility":"none" %>">
               <div class="input-group input-group-lg">
                 <span class="input-group-addon">Firstname</span>
-                <input type="text" class="form-control" name="firstName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only upper or lowercase" autofocus="" value="<%= create.getFirstName()%>">
+                <input type="text" class="form-control" name="firstName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only upper or lowercase" value="<%= create.getFirstName()%>">
               </div>
 
               <div class="input-group input-group-lg">
