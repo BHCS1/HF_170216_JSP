@@ -12,12 +12,15 @@
     <title>Employee's salary change</title>
   </head>
   <body>
-    <% ArrayList<Employee> employee = Employee.getAll(); 
-    int i =0;
-    while (i<employee.size() && employee.get(i).getID()==204)
-      i++;
+    <% int id=0; 
+      if (request.getParameter("emp_id")!=null)
+      id = Integer.parseInt(request.getParameter("emp_id"));
+      ArrayList<Employee> employee = Employee.getAll(); 
+      int i =0;
+      
+      while (i<employee.size() && employee.get(i).getID()!=id)
+        i++;
     %>
-    
     <br><br> 
     <p align="center">
     <h3><p align="center">Employee's name: <%= employee.get(i).getName() %> </h3> 
@@ -34,7 +37,6 @@
     <h3><p align="center">Please select a salary from $ <%=salaryMin%> to $ <%=salaryMax%></h3>
     <% try{ 
       Integer.parseInt(request.getParameter("newsalary")); 
-
     if (request.getParameter("newsalary")!=null && Integer.parseInt(request.getParameter("newsalary"))>salaryMax)  {%>
     <h4><p align="center"> Wrong salary, too high! Please type again!</p></h4>
     <% }else if (request.getParameter("newsalary")!=null && Integer.parseInt(request.getParameter("newsalary"))<salaryMin) {%>
