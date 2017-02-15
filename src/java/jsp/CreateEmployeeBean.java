@@ -50,13 +50,13 @@ public class CreateEmployeeBean extends model.Employee {
           alerts.add("Missing firstname.");
         }
         else if(!getFirstName().matches(("[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+"))) {
-          alerts.add("Invalid firstname.");
+          alerts.add("Invalid firstname. Only upper or lowercase.");
         }
         
         if (getLastName()==null) {
           alerts.add("Missing lastname.");
         } else if(!getLastName().matches(("[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+"))) {
-          alerts.add("Invalid lastname.");
+          alerts.add("Invalid lastname. Only upper or lowercase.");
         }
 
         if (getEmail()==null) {

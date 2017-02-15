@@ -17,7 +17,7 @@
         <h3 class="panel-title">Login</h3>
     </div>
     <div class="panel-body">
-        <form action="${pageContext.request.contextPath}/authentication/loginProcess.jsp" method="post">       
+        <form action="loginProcess.jsp" method="post">       
             <div class="form-group">        
                 <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="" value="${param.username}"/>
             </div>

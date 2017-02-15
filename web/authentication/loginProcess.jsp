@@ -9,7 +9,7 @@
       response.sendRedirect(request.getContextPath() + "/index.jsp");
     } else {
       request.setAttribute("loginmessage", "Login unsuccessful");
-      request.getRequestDispatcher(request.getContextPath() + "/authentication/login.jsp").forward(request, response); //response.sendRedirect("login.jsp");
+      request.getRequestDispatcher("login.jsp").forward(request, response); //response.sendRedirect("login.jsp");
     }
   } else {
     request.setAttribute("loginmessage", "Login unsuccessful");

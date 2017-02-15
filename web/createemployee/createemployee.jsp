@@ -71,7 +71,7 @@
       <script type="text/javascript" language="JavaScript">
         window.onload = function() {
           var returnVal=<%= returnVal %>;
-          if(3!==-1) {
+          if(returnVal!==-1) {
             alert("Employee added to the database.\nAfter approval will be navigated to home page.");
           }
           else {
@@ -146,12 +146,12 @@
             <div class="form-group" style="display:<%= (index==1)?"visibility":"none" %>">
               <div class="input-group input-group-lg">
                 <span class="input-group-addon">Firstname</span>
-                <input type="text" class="form-control" name="firstName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only Hungarian characters" autofocus="" value="<%= create.getFirstName()%>">
+                <input type="text" class="form-control" name="firstName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only upper or lowercase" autofocus="" value="<%= create.getFirstName()%>">
               </div>
 
               <div class="input-group input-group-lg">
                 <span class="input-group-addon">Lastname</span>
-                <input type="text" class="form-control" name="lastName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only Hungarian characters" value="<%= create.getLastName()%>">
+                <input type="text" class="form-control" name="lastName" placeholder="" pattern="[a-zA-Z|á|é|í|ö|ó|ú|ü|ű|Á|É|Í|Ö|Ó|Ú|Ű|Ü]+" title="Only upper or lowercase" value="<%= create.getLastName()%>">
               </div>
 
               <div class="input-group input-group-lg">
