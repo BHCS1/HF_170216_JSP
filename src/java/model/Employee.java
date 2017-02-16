@@ -19,7 +19,7 @@ public class Employee extends Model {
   private int salary;
   private int departmentId;
   private String departmentName;
-  private Department department;
+  protected Department department;
   private Job job;
 
   public static ArrayList<Employee> getAll() throws ClassNotFoundException, SQLException {
@@ -54,6 +54,42 @@ public class Employee extends Model {
 
     disconnect();
     return list;
+  }
+  
+  public static Employee get(int empId) throws ClassNotFoundException, SQLException {
+    connect();
+    Employee emp = null;
+
+    String query = "SELECT e.employee_id AS id, "
+            + "d.department_id AS depId, "
+            + "d.department_name AS depName, "
+            + "e.first_name AS firstName, "
+            + "e.last_name AS lastName, "
+            + "e.salary "
+            + "FROM departments d "
+            + "INNER JOIN employees e "
+            + "ON e.department_id=d.department_id "
+            + "WHERE employee_id=? "
+            + "ORDER BY depName, firstName, lastName";
+
+    PreparedStatement psm = connection.prepareStatement(query);
+    psm.setInt(1, empId);
+    ResultSet result = psm.executeQuery();
+
+    if (result.next()) {
+      emp =
+              new Employee(
+                      result.getInt("id"),
+                      result.getString("firstName"),
+                      result.getString("lastName"),
+                      result.getInt("salary"),
+                      result.getInt("depId"),
+                      result.getString("depName")
+              );
+    }
+
+    disconnect();
+    return emp;
   }
   
   public Employee() {

@@ -1,5 +1,6 @@
 <%@page import="model.Job"%>
 <%@page import="model.Department"%>
+<%@page import="model.Employee"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="jsp.Step"%>
 <%@page import="jsp.CreateEmployeeBean"%>
@@ -15,6 +16,7 @@
 <jsp:setProperty name="create" property="departmentId"/>
 <jsp:setProperty name="create" property="jobId"/>
 <jsp:setProperty name="create" property="salary"/>
+<jsp:setProperty name="create" property="managerId"/>
 
 <jsp:include page="/layout/head.jsp"></jsp:include>
 
@@ -197,6 +199,30 @@
             </ul>
           </div>
         </div>
+            
+        <div class="panel panel-default" style="display:<%= (index==3)?"visibility":"none"%>">
+          <div class="panel-heading">Manager</div>
+          
+          <div class="panel-body">
+            <%
+              ArrayList<Employee> managers = new ArrayList<Employee>();
+              try {
+                managers = Department.get(create.getDepartmentId()).getManagers();
+                if (managers.isEmpty())
+                  managers.add(Employee.get(100));
+              }catch(Exception ex) {
+                out.print(ex.getMessage());
+              }
+            %>
+            <div class="input-group input-group-lg">
+              <select name="managerId">
+                <% for (Employee manager : managers) { %>
+                <option value="<%= manager.getID() %>"><%= manager.getName() %></option>
+                <% } %>
+              </select>
+            </div>
+          </div>
+        </div>
 
         <div class="panel panel-default" style="display:<%= (index==3)?"visibility":"none"%>">
           <div class="panel-heading">Salary</div>
@@ -225,6 +251,13 @@
             <h3>Phone: <%= create.getPhoneNumber()%></h3>
             <% Department dep=create.getDepartment(); %>
             <h3>Department: <%= (dep!=null?dep.getName():null) %></h3>
+            <%Employee manager=null;
+              try {
+                manager=Employee.get(create.getManagerId());
+            } catch(Exception ex) {
+              out.print(ex.getMessage());
+            } %>
+            <h3>Manager: <%= (manager!=null?manager.getName():null) %></h3>
             <% Job job=create.getJob(); %>
             <h3>Job: <%= (job!=null?job.getTitle():null) %></h3>
             <h3>Salary: $<%= create.getSalary() %></h3>
