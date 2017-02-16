@@ -6,15 +6,11 @@
 
 <jsp:include page="/layout/head.jsp"></jsp:include>
 
-<%if (!auth.isloggedIn()) {
-    response.sendRedirect(request.getContextPath() + "/authentication/login.jsp");
+<%String value = request.getParameter("emp_id");
+  if (!auth.isloggedIn() || !auth.hasPermission("salary_change") || change.getName(value)==null) {
+    response.sendRedirect(request.getContextPath() + "/index.jsp");
     return;
-  }
-  if (!auth.hasPermission("salary_change")) {
-    response.sendRedirect(request.getContextPath() + "/authentication/login.jsp");
-    return;
-  }
-  String value = request.getParameter("emp_id");%>
+  }%>
 
 <div class="page-header">
   <h1>Change Salary</h1>

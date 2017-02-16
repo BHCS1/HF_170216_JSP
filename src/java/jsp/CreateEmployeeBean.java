@@ -22,13 +22,10 @@ public class CreateEmployeeBean extends model.Employee {
   private int currentstep=0;
   private final int STEPS_NUMBER;
   private ArrayList<Department> departments;
+  private ArrayList<Job> jobs;
   private ArrayList<String> alerts=new ArrayList<>();
 
   public CreateEmployeeBean() {
-    this.setDepartmentId(-1);
-    this.setPhoneNumber("");
-    this.setJobId("");
-    this.setSalary(0);
     
     steps.add(new Step("Instructions") {
       public boolean checking() {
@@ -173,9 +170,20 @@ public class CreateEmployeeBean extends model.Employee {
       departments=Department.getAll();
     }
     catch (Exception e) {
-      ;
+      return new ArrayList<>();
     }
     return departments;
+  }
+  
+    public ArrayList<Job> getJobs() {
+    try {
+    if(jobs==null)
+      jobs=Job.getAll();
+    }
+    catch (Exception e) {
+      return new ArrayList<>();
+    }
+    return jobs;
   }
   
   

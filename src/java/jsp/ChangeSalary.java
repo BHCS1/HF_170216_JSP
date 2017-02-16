@@ -31,6 +31,8 @@ public String getName(String idValue) {
   this.id=id;
   while (i<employee.size() && id!=employee.get(i).getID() )
     i++;
+  if(i>=employee.size())
+    return null;
   this.index=i;
   return employee.get(i).getName(); 
   }
