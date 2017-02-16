@@ -2,8 +2,6 @@ package jsp;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Employee;
 
 public class ChangeSalary extends model.Employee  {
@@ -64,23 +62,26 @@ public String getName(String idValue) {
     return true;
   }
   
-  public String getMessages(String inputSalary ) throws SQLException, ClassNotFoundException  {
+  public String[] getMessages(String inputSalary ) throws SQLException, ClassNotFoundException  {
+    String alertType = "danger";
+    String message;
     try{
-    this.newSalary = Integer.parseInt(inputSalary);
+      this.newSalary = Integer.parseInt(inputSalary);
     }
     catch (NumberFormatException ex){
-      return "Please type a valid number!";
+      return new String[] {alertType, "Please type a valid number!"};
     }
     if (newSalary==employee.get(index).getSalary())
-      return "Same salary, please type a new salary!";
+      message = "Same salary, please type a new salary!";
     
     else if (!typedSalaryValueCheck())
-      return "Wrong salary, please type a new salary!";
+      message = "Wrong salary, please type a new salary!";
     else {
-
+        alertType = "success";
         employee.get(index).setSalary(newSalary);
-        employee.get(index).update();               
-    return "Salary updated"; 
+        employee.get(index).update();
+        message = "Salary updated";
     }
+    return new String[] {alertType, message}; 
   }
 }
