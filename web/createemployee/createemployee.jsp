@@ -249,7 +249,12 @@
             <h3>Name: <%= create.getFirstName() %> <%= create.getLastName() %></h3>
             <h3>Email: <%= create.getEmail() %></h3>
             <h3>Phone: <%= create.getPhoneNumber()%></h3>
-            <% Department dep=create.getDepartment(); %>
+            <% Department dep=null;
+            try {
+              create.getDepartment();
+            } catch(Exception ex) {
+              out.print(ex.getMessage());
+            }%>
             <h3>Department: <%= (dep!=null?dep.getName():null) %></h3>
             <%Employee manager=null;
               try {

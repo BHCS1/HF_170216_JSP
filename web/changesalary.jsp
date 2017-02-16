@@ -34,7 +34,7 @@
       <div class="input-group input-group-lg">
         <span class="input-group-addon">$</span>
         
-        <input type="text" class="form-control" name="newsalary" placeholder="Salary" title="Only digits." value="<%= request.getParameter("newsalary")==null?change.getSalary():request.getParameter("newsalary") %>">
+        <input type="number" class="form-control" name="newsalary" placeholder="Salary" pattern="/[0-9]/" title="Only digits." value="<%= request.getParameter("newsalary")==null?change.getSalary():request.getParameter("newsalary") %>">
         <% if (message == null || !message[0].equals("success")) { %>
         <span class="input-group-btn">
           <button class="btn btn-default" type="submit">
