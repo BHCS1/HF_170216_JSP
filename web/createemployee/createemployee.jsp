@@ -207,7 +207,9 @@
             <%
               ArrayList<Employee> managers = new ArrayList<Employee>();
               try {
-                managers = Department.get(create.getDepartmentId()).getManagers();
+                Department dep = Department.get(create.getDepartmentId());
+                if (dep != null)
+                  managers = dep.getManagers();
                 if (managers.isEmpty())
                   managers.add(Employee.get(100));
               }catch(Exception ex) {
@@ -251,20 +253,20 @@
             <h3>Phone: <%= create.getPhoneNumber()%></h3>
             <% Department dep=null;
             try {
-              create.getDepartment();
+              dep = create.getDepartment();
             } catch(Exception ex) {
               out.print(ex.getMessage());
             }%>
-            <h3>Department: <%= (dep!=null?dep.getName():null) %></h3>
+            <h3>Department: <%= (dep!=null?dep.getName():"-") %></h3>
             <%Employee manager=null;
               try {
                 manager=Employee.get(create.getManagerId());
             } catch(Exception ex) {
               out.print(ex.getMessage());
             } %>
-            <h3>Manager: <%= (manager!=null?manager.getName():null) %></h3>
+            <h3>Manager: <%= (manager!=null?manager.getName():"-") %></h3>
             <% Job job=create.getJob(); %>
-            <h3>Job: <%= (job!=null?job.getTitle():null) %></h3>
+            <h3>Job: <%= (job!=null?job.getTitle():"-") %></h3>
             <h3>Salary: $<%= create.getSalary() %></h3>
           </div>
         </div>
